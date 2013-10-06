@@ -13,50 +13,53 @@ void test_diviser_requete_en_lexemes() {
     CU_ASSERT_EQUAL(4, requete_divisee.taille);
 }
 
-void test_requete_est_valide_ok() {
-    t_requete_lexemes requete;
-    requete.tableau = malloc(sizeof(char*)*4);
-    requete.tableau[0] = "select";
-    requete.tableau[1] = "*";
-    requete.tableau[2] = "from";
-    requete.tableau[3] = "devices";
-    requete.taille = 4;
-    CU_ASSERT_EQUAL(true, requete_est_valide(requete));
+void test_construire_requete_et_renvoyer_statut_ok() {
+    t_requete_lexemes lexemes;
+    t_requete requete;
+    lexemes.tableau = malloc(sizeof(char*)*4);
+    lexemes.tableau[0] = "select";
+    lexemes.tableau[1] = "*";
+    lexemes.tableau[2] = "from";
+    lexemes.tableau[3] = "devices";
+    lexemes.taille = 4;
+    CU_ASSERT_EQUAL(true, construire_requete_et_renvoyer_statut(lexemes, &requete));
+    CU_ASSERT_STRING_EQUAL("devices", requete.cible);
 }
 
-void test_requete_est_valide_ko() {
-    t_requete_lexemes requete;
-    requete.tableau = malloc(sizeof(char*)*5);
-    requete.tableau[0] = "select";
-    requete.tableau[1] = "*";
-    requete.tableau[2] = "from";
-    requete.tableau[3] = "devices";
-    requete.tableau[4] = "stuff";
-    requete.taille = 5;
-    CU_ASSERT_EQUAL(false, requete_est_valide(requete));
+void test_construire_requete_et_renvoyer_statut_ko() {
+    t_requete_lexemes lexemes;
+    t_requete requete;
+    lexemes.tableau = malloc(sizeof(char*)*5);
+    lexemes.tableau[0] = "select";
+    lexemes.tableau[1] = "*";
+    lexemes.tableau[2] = "from";
+    lexemes.tableau[3] = "devices";
+    lexemes.tableau[4] = "stuff";
+    lexemes.taille = 5;
+    CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
     
     
-    requete.tableau[0] = "select";
-    requete.tableau[1] = "*";
-    requete.tableau[2] = "rfom";
-    requete.tableau[3] = "devices";
-    requete.taille = 4;
-    CU_ASSERT_EQUAL(false, requete_est_valide(requete));
+    lexemes.tableau[0] = "select";
+    lexemes.tableau[1] = "*";
+    lexemes.tableau[2] = "rfom";
+    lexemes.tableau[3] = "devices";
+    lexemes.taille = 4;
+    CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
 
-    requete.tableau[0] = "select";
-    requete.tableau[1] = "*";
-    requete.tableau[2] = "from";
-    requete.tableau[3] = "";
-    requete.taille = 4;
-    CU_ASSERT_EQUAL(false, requete_est_valide(requete));
+    lexemes.tableau[0] = "select";
+    lexemes.tableau[1] = "*";
+    lexemes.tableau[2] = "from";
+    lexemes.tableau[3] = "";
+    lexemes.taille = 4;
+    CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
 }
 
 int main() {
     CU_initialize_registry();
     CU_pSuite pSuite = pSuite = CU_add_suite("Suite_1", NULL, NULL);
     CU_add_test(pSuite, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
-    CU_add_test(pSuite, "test_requete_est_valide_ok", test_requete_est_valide_ok);
-    CU_add_test(pSuite, "test_requete_est_valide_ko", test_requete_est_valide_ko);
+    CU_add_test(pSuite, "test_construire_requete_et_renvoyer_statut_ok", test_construire_requete_et_renvoyer_statut_ok);
+    CU_add_test(pSuite, "test_construire_requete_et_renvoyer_statut_ok", test_construire_requete_et_renvoyer_statut_ko);
     CU_basic_set_mode(CU_BRM_VERBOSE);
 
     CU_basic_run_tests();

@@ -1,0 +1,5 @@
+Développement : prérequis
+=========================
+cunit pour les tests unitaires
+libcurl
+libjson0 libjson0-dev

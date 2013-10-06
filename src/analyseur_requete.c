@@ -15,14 +15,16 @@ t_requete_lexemes diviser_requete_en_lexemes(char* requete) {
     return resultat;
 }
 
-bool requete_est_valide(t_requete_lexemes requete) {
-    if(requete.taille != 4)
+bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete* requete) {
+    if(lexemes.taille != 4)
         return false;
     bool resultat = true;
-    char** tableau = requete.tableau;
+    char** tableau = lexemes.tableau;
     resultat &= (strcmp(tableau[0], "select") == 0);
     resultat &= (strcmp(tableau[1], "*") == 0);
     resultat &= (strcmp(tableau[2], "from") == 0);
     resultat &= (strlen(tableau[3]) > 0);
+    if(resultat)
+        requete->cible = tableau[3];
     return resultat;
 }
