@@ -1,5 +1,6 @@
 #include "analyseur_requete.h"
 #include <string.h>
+#include <stdlib.h>
 
 t_requete_lexemes diviser_requete_en_lexemes(char* requete) {
     t_requete_lexemes resultat;

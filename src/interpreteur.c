@@ -3,7 +3,7 @@
 #include <stdbool.h>
 #include "interpreteur.h"
 #include "analyseur_requete.h"
-#include "executeur_requete.h"
+#include "types.h"
 
 int main(int argc, char** argv) {
     if(argc != 2) {
@@ -16,7 +16,8 @@ int main(int argc, char** argv) {
     if(!construire_requete_et_renvoyer_statut(requete_divisee, &requete)) {
         return 1;
     }
-    t_resultat resultat = executer_requete(&requete);
+    printf("Cible : %s\n", requete.cible);
+    executer_requete(requete);
     return 0;
 
 }
