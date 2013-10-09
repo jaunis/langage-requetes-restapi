@@ -4,6 +4,8 @@
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
+
+
 int main() {
     CU_initialize_registry();
 
@@ -15,8 +17,9 @@ int main() {
 	CU_pSuite suite_dict_utils = CU_add_suite("Tests dict_utils.c", NULL, NULL);
 	CU_add_test(suite_dict_utils, "test_dict_valeur", test_dict_valeur);
 	CU_add_test(suite_dict_utils, "test_dict_valeur_null", test_dict_valeur_null);
-	CU_add_test(suite_dict_utils, "test_dict_ajouter_cle_valeur", test_dict_ajouter_cle_valeur);
+	CU_add_test(suite_dict_utils, "test_dict_inserer_cle_valeur", test_dict_inserer_cle_valeur);
 	CU_add_test(suite_dict_utils, "test_initialiser_dict", test_initialiser_dict);
+	CU_add_test(suite_dict_utils, "test_dict_inserer_cle_existante", test_dict_inserer_cle_existante);
 
     CU_pSuite suite_analyseur_json = CU_add_suite("Tests analyseur_json.c", NULL, NULL);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_valide", test_analyser_json_valide);

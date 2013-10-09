@@ -6,6 +6,7 @@
  */
 
 #include "types.h"
+#include "dict_utils.h"
 #include <json/json.h>
 
 void analyser_json(char* json, t_resultat* resultat) {
@@ -17,12 +18,10 @@ void analyser_json(char* json, t_resultat* resultat) {
 	json_object* element;
 	for(int i=0; i<taille; i++) {
 		element = json_object_array_get_idx(contenu, i);
-		dict* dict = malloc(sizeof(dict));
-		int taille_dict = 0;
+		dict* dict = initialiser_dict(10);
 		json_object_object_foreach(element, key, val) {
-			taille_dict++;
-			dict_ajouter_cle_valeur(dict, key, val);
+			dict_inserer_cle_valeur(dict, key, json_object_get_string(val));
 		}
-		dict->nb_entrees = taille_dict;
+		resultat->liste[i] = dict;
 	}
 }

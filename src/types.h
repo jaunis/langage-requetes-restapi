@@ -16,6 +16,7 @@ typedef struct entree {
 typedef struct dict {
 	entree** entrees;
 	int nb_entrees;
+	int _taille_allouee;
 } dict;
 
 typedef struct t_resultat {

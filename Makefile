@@ -1,3 +1,4 @@
+DEBUG=yes
 ifeq ($(DEBUG), yes)
     CFLAGS=-lcurl -ljson -g -std=c99
 else
@@ -40,4 +41,4 @@ tests.o: test/tests.c
 	gcc -o tests.o -c test/tests.c $(CFLAGS) $(TESTFLAGS)
 
 test_dict_utils.o: test/test_dict_utils.c
-	gcc -c test/test_dict_utils.c -o test_dict_utils.o
+	gcc -c test/test_dict_utils.c -o test_dict_utils.o $(CFLAGS) $(TESTFLAGS)

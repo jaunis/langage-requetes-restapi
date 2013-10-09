@@ -6,9 +6,12 @@
  */
 
 #include "../src/types.h"
+#include "../src/dict_utils.h"
 #include "test_dict_utils.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 void test_dict_valeur() {
 	entree entree1 = {
@@ -56,10 +59,40 @@ void test_dict_valeur_null() {
 	CU_ASSERT_PTR_NULL(dict_valeur(&dictionnaire, "cle_inexistante"));
 }
 
-void test_dict_ajouter_cle_valeur() {
-	CU_FAIL("Non implémenté");
+void test_dict_inserer_cle_valeur() {
+	dict* dict = initialiser_dict(1000);
+	char* cle = malloc(sizeof(char)*7);
+	char* valeur = malloc(sizeof(char)*10);
+	for(int i=0; i<10000; i++) {
+		sprintf(cle, "cle%d", i);
+		sprintf(valeur, "valeur%d", i);
+		dict_inserer_cle_valeur(dict, cle, valeur);
+	}
+
+	for(int i=0; i<10000; i++) {
+		sprintf(cle, "cle%d", i);
+		sprintf(valeur, "valeur%d", i);
+		CU_ASSERT_STRING_EQUAL(valeur, dict_valeur(dict, cle));
+	}
+	CU_ASSERT_EQUAL(10000, dict->nb_entrees);
+}
+
+void test_dict_inserer_cle_existante() {
+	dict* dict = initialiser_dict(3);
+	dict_inserer_cle_valeur(dict, "cle1", "valeur1");
+	dict_inserer_cle_valeur(dict, "cle2", "valeur2");
+	dict_inserer_cle_valeur(dict, "cle3", "valeur3");
+	dict_inserer_cle_valeur(dict, "cle2", "nouvelle_valeur2");
+
+	CU_ASSERT_EQUAL(3, dict->nb_entrees);
+	CU_ASSERT_STRING_EQUAL("valeur1", dict_valeur(dict, "cle1"));
+	CU_ASSERT_STRING_EQUAL("nouvelle_valeur2", dict_valeur(dict, "cle2"));
+	CU_ASSERT_STRING_EQUAL("valeur3", dict_valeur(dict, "cle3"));
 }
 
 void test_initialiser_dict() {
-	CU_FAIL("Non implémenté");
+	dict* dict = initialiser_dict(10);
+	CU_ASSERT_EQUAL(10, dict->_taille_allouee);
+	CU_ASSERT_PTR_NOT_NULL(dict->entrees);
+	CU_ASSERT_EQUAL(0, dict->nb_entrees);
 }

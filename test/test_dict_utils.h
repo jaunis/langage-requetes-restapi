@@ -10,7 +10,8 @@
 
 void test_dict_valeur();
 void test_dict_valeur_null();
-void test_dict_ajouter_cle_valeur();
+void test_dict_inserer_cle_valeur();
 void test_initialiser_dict();
+void test_dict_inserer_cle_existante();
 
 #endif /* TEST_DICT_UTILS_H_ */
