@@ -5,9 +5,11 @@
  *      Author: jean
  */
 
+#include <stdbool.h>
+
 #ifndef ANALYSEUR_JSON_H_
 #define ANALYSEUR_JSON_H_
 
-void analyser_json(char* json, t_resultat* resultat);
+bool analyser_json(char* json, t_resultat* resultat);
 
 #endif /* ANALYSEUR_JSON_H_ */

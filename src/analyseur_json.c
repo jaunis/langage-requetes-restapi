@@ -7,11 +7,17 @@
 
 #include "types.h"
 #include "dict_utils.h"
+#include "analyseur_json.h"
 #include <json/json.h>
+#include <stdbool.h>
 
-void analyser_json(char* json, t_resultat* resultat) {
+bool analyser_json(char* json, t_resultat* resultat) {
 	json_object* jobj = json_tokener_parse(json);
-	json_object* contenu =  json_object_object_get(jobj, "items");
+	json_object* contenu;
+	if(!json_object_object_get_ex(jobj, "items", &contenu))
+		return false;
+	if(json_object_get_type(contenu) != json_type_array)
+		return false;
 	int taille = json_object_array_length(contenu);
 	resultat->taille = taille;
 	resultat->liste = malloc(taille * sizeof(dict*));
@@ -24,4 +30,5 @@ void analyser_json(char* json, t_resultat* resultat) {
 		}
 		resultat->liste[i] = dict;
 	}
+	return true;
 }

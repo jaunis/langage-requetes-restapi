@@ -23,6 +23,7 @@ int main() {
 
     CU_pSuite suite_analyseur_json = CU_add_suite("Tests analyseur_json.c", NULL, NULL);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_valide", test_analyser_json_valide);
+	CU_add_test(suite_analyseur_json, "test_analyser_json_invalide", test_analyser_json_invalide);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

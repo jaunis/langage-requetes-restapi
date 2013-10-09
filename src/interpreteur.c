@@ -18,7 +18,7 @@ int main(int argc, char** argv) {
         return 1;
     }
     printf("Cible : %s\n", requete.cible);
-    t_resultat* resultat;
+    t_resultat* resultat = malloc(sizeof(t_resultat));
     executer_requete(requete, resultat);
     return 0;
 
