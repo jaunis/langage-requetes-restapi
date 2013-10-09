@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include "interpreteur.h"
 #include "analyseur_requete.h"
+#include "executeur_requete.h"
 #include "types.h"
 
 int main(int argc, char** argv) {
@@ -17,7 +18,8 @@ int main(int argc, char** argv) {
         return 1;
     }
     printf("Cible : %s\n", requete.cible);
-    executer_requete(requete);
+    t_resultat* resultat;
+    executer_requete(requete, resultat);
     return 0;
 
 }

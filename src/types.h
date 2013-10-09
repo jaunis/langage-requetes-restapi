@@ -14,12 +14,12 @@ typedef struct entree {
 } entree;
 
 typedef struct dict {
-	entree* entrees;
+	entree** entrees;
 	int nb_entrees;
 } dict;
 
 typedef struct t_resultat {
-	dict* liste;
+	dict** liste;
 	int taille;
 } t_resultat;
 

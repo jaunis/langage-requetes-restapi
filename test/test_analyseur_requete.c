@@ -1,7 +1,8 @@
 #include "../src/analyseur_requete.h"
 #include <CUnit/CUnit.h>
-#include "CUnit/Basic.h"
+#include <CUnit/Basic.h>
 #include <stdbool.h>
+#include <stdlib.h>
 
 void test_diviser_requete_en_lexemes() {
     char requete[] = "select *     from   devices";
@@ -54,14 +55,3 @@ void test_construire_requete_et_renvoyer_statut_ko() {
     CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
 }
 
-int main() {
-    CU_initialize_registry();
-    CU_pSuite pSuite = pSuite = CU_add_suite("Suite_1", NULL, NULL);
-    CU_add_test(pSuite, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
-    CU_add_test(pSuite, "test_construire_requete_et_renvoyer_statut_ok", test_construire_requete_et_renvoyer_statut_ok);
-    CU_add_test(pSuite, "test_construire_requete_et_renvoyer_statut_ok", test_construire_requete_et_renvoyer_statut_ko);
-    CU_basic_set_mode(CU_BRM_VERBOSE);
-
-    CU_basic_run_tests();
-    return CU_get_error();
-}
