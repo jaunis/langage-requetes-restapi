@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 void test_analyser_json_valide() {
-    char json[] = "{\"items\": [{\"champ1\": \"valeur1\", \"champ2\": 2}, {\"champ1\": \"valeur001\", \"champ3\": 3}]}";
+    char json[] = "{\"items\": [{\"champ1\": \"valeur1\", \"champ2\": 2}, {\"champ1\": \"valeur001\", \"champ3\": 3, \"champ4\": null}]}";
     t_resultat* resultat = malloc(sizeof(t_resultat));
 
     CU_ASSERT_TRUE(analyser_json(json, resultat));

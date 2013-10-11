@@ -26,8 +26,11 @@ bool analyser_json(char* json, t_resultat* resultat) {
 		element = json_object_array_get_idx(contenu, i);
 		dict* dict = initialiser_dict(10);
 		json_object_object_foreach(element, key, val) {
-			if(json_object_get_type(val) != json_type_array)
+			json_type type = json_object_get_type(val);
+			if(type == json_type_double || type == json_type_int || type == json_type_string || type == json_type_boolean)
 				dict_inserer_cle_valeur(dict, key, json_object_get_string(val));
+			else if(type == json_type_null)
+				dict_inserer_cle_valeur(dict, key, "");
 		}
 		resultat->liste[i] = dict;
 	}

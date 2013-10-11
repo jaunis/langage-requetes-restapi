@@ -42,9 +42,9 @@ bool remplacer_entree_existante(dict* dict, const char* cle, const char* valeur)
 
 void inserer_nouvelle_entree(dict* dict, const char* cle, const char* valeur) {
 	t_entree* nouvelle_entree = malloc(sizeof(t_entree));
-	nouvelle_entree->cle = malloc(sizeof(char) * strlen(cle));
+	nouvelle_entree->cle = malloc(sizeof(char) * (strlen(cle) + 1));
 	strcpy(nouvelle_entree->cle, cle);
-	nouvelle_entree->valeur = malloc(sizeof(char) * strlen(valeur));
+	nouvelle_entree->valeur = malloc(sizeof(char) * (strlen(valeur) + 1));
 	strcpy(nouvelle_entree->valeur, valeur);
 	if (dict->nb_entrees == dict->_taille_allouee) {
 		int nouvelle_taille_allouee = dict->_taille_allouee * 2;

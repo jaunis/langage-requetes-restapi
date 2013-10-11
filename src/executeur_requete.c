@@ -12,7 +12,7 @@ void executer_requete(t_requete requete, t_resultat* resultat) {
     CURLcode code_execution;
     curl = curl_easy_init();
     if(curl) {
-    	int taille = (strlen(REST_API_URL) + strlen(requete.cible) + 1) * sizeof(char);
+    	int taille = (strlen(REST_API_URL) + strlen(requete.cible) + 2) * sizeof(char);
         char* url_complete = malloc(taille);
         sprintf(url_complete, "%s/%s", REST_API_URL, requete.cible);
         curl_easy_setopt(curl, CURLOPT_URL, url_complete);
