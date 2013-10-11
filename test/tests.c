@@ -28,8 +28,8 @@ int main() {
 	CU_add_test(suite_analyseur_json, "test_analyser_json_valide", test_analyser_json_valide);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_invalide", test_analyser_json_invalide);
 
-//	CU_pSuite suite_afficheur = CU_add_suite("Tests afficheur.c", NULL, NULL);
-//	CU_add_test(suite_afficheur, "test_afficher_resultat", test_afficher_resultat);
+	CU_pSuite suite_afficheur = CU_add_suite("Tests afficheur.c", NULL, NULL);
+	CU_add_test(suite_afficheur, "test_afficher_resultat", test_afficher_resultat);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

@@ -21,7 +21,7 @@ void test_afficher_resultat() {
 	dict_inserer_cle_valeur(elt1, "cle2", "valeur2");
 	dict* elt2 = initialiser_dict(2);
 	dict_inserer_cle_valeur(elt2, "cle1", "valeur01");
-	dict_inserer_cle_valeur(elt2, "cle2", "valeur02");
+	dict_inserer_cle_valeur(elt2, "cle3", "valeur03");
 	liste[0] = elt1;
 	liste[1] = elt2;
 	resultat->liste = liste;
@@ -29,7 +29,7 @@ void test_afficher_resultat() {
 
 	afficher_resultat(resultat);
 
-	char* sortie_attendue = "cle1,cle2\nvaleur1,valeur2\nvaleur01,valeur02\n";
+	char* sortie_attendue = "cle1,cle2,cle3\nvaleur1,valeur2,\nvaleur01,,valeur03\n";
 	CU_ASSERT_STRING_EQUAL(sortie_attendue, SORTIE_STDOUT);
 
 	free(resultat);

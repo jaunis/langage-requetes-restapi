@@ -9,71 +9,112 @@
 #include "resultat_utils.h"
 #include <string.h>
 #include <stdlib.h>
+#ifndef CUNIT
 #include <stdio.h>
+#else
+#include "../test/mocks.h"
+#endif
 
 void afficher_resultat(t_resultat* resultat) {
 	int taille_en_tete;
-	char** en_tete = extraire_en_tete(resultat, &taille_en_tete);
-	afficher_en_tete(en_tete, taille_en_tete);
-	afficher_lignes(resultat, en_tete, taille_en_tete);
-	desallouer_en_tete(en_tete, taille_en_tete);
+	t_en_tete en_tete = extraire_en_tete(resultat);
+	afficher_en_tete(en_tete);
+	afficher_lignes(resultat, en_tete);
+	desallouer_en_tete(en_tete);
 }
 
-char** extraire_en_tete(t_resultat* resultat, int* taille_en_tete) {
-	dict* entree = resultat->liste[0];
-	char** en_tete = malloc(entree->nb_entrees * sizeof(char*));
-	for(int i=0; i<entree->nb_entrees; i++) {
-		char* cle = entree->entrees[i]->cle;
-		en_tete[i] = malloc(strlen(cle) * sizeof(char));
-		strcpy(en_tete[i], cle);
+t_en_tete extraire_en_tete(t_resultat* resultat) {
+	t_en_tete en_tete = {
+			.colonnes = NULL,
+			.taille = 0
+	};
+	for(int i=0; i<resultat->taille; i++) {
+		dict* entree = resultat->liste[i];
+		for(int j=0; j<entree->nb_entrees; j++) {
+			char* cle = entree->entrees[j]->cle;
+			if(!en_tete_contient(en_tete, cle)) {
+				incrementer_taille_en_tete(&en_tete);
+				ajouter_colonne(&en_tete, cle);
+			}
+		}
 	}
-	*taille_en_tete = entree->nb_entrees;
 	return en_tete;
 }
 
-void afficher_en_tete(char** en_tete, int taille_en_tete) {
+void afficher_en_tete(t_en_tete en_tete) {
 	int taille_totale = 0;
-	for(int i=0; i<taille_en_tete; i++) {
-		taille_totale += strlen(en_tete[i]) + 1;
+	for(int i=0; i<en_tete.taille; i++) {
+		taille_totale += strlen(en_tete.colonnes[i]) + 1;
 	}
+	taille_totale++;
 	char* ligne = malloc(taille_totale * sizeof(char));
 	ligne[0] = '\0';
-	for(int i=0; i<taille_en_tete; i++) {
-		strcat(ligne, en_tete[i]);
-		if(i != taille_en_tete - 1)
+	for(int i=0; i<en_tete.taille; i++) {
+		strcat(ligne, en_tete.colonnes[i]);
+		if(i != en_tete.taille - 1)
 			strcat(ligne, ",");
 	}
-	printf("%s\n", ligne);
+	strcat(ligne, "\n");
+	printf(ligne);
 	free(ligne);
 }
 
-void afficher_lignes(t_resultat* resultat, char** en_tete, int taille_en_tete) {
+void afficher_lignes(t_resultat* resultat, t_en_tete en_tete) {
 	for(int i=0; i<resultat->taille; i++) {
 		dict* dict = resultat->liste[i];
-		int taille_ligne = 0;
-		for(int j=0; j<taille_en_tete; j++) {
-			char* valeur = dict_valeur(dict, en_tete[j]);
-			if(valeur != NULL)
-				taille_ligne += strlen(valeur);
-			taille_ligne++;
-		}
+		int taille_ligne = determiner_taille_ligne(dict, en_tete);
 		char* ligne = malloc(taille_ligne * sizeof(char));
-		ligne[0] = '\0';
-		for(int j=0; j<taille_en_tete; j++) {
-			char* valeur = dict_valeur(dict, en_tete[j]);
-			if(valeur != NULL)
-				strcat(ligne, valeur);
-			if(j != taille_en_tete - 1)
-				strcat(ligne, ",");
-		}
-		printf("%s\n", ligne);
+		remplir_ligne_avec_dict(ligne, dict, en_tete);
+		printf(ligne);
 		free(ligne);
 	}
 }
 
-void desallouer_en_tete(char** en_tete, int taille_en_tete) {
-	for(int i=0; i<taille_en_tete; i++) {
-		free(en_tete[i]);
+int determiner_taille_ligne(dict* dict, t_en_tete en_tete) {
+	int taille_ligne = 0;
+	for(int j=0; j<en_tete.taille; j++) {
+		char* valeur = dict_valeur(dict, en_tete.colonnes[j]);
+		if(valeur != NULL)
+			taille_ligne += strlen(valeur);
+		taille_ligne++;
 	}
-	free(en_tete);
+	return taille_ligne + 1;
+}
+
+void remplir_ligne_avec_dict(char* ligne, dict* dict, t_en_tete en_tete) {
+	ligne[0] = '\0';
+	for(int j=0; j<en_tete.taille; j++) {
+		char* valeur = dict_valeur(dict, en_tete.colonnes[j]);
+		if(valeur != NULL)
+			strcat(ligne, valeur);
+		if(j != en_tete.taille - 1)
+			strcat(ligne, ",");
+	}
+	strcat(ligne, "\n");
+}
+
+void incrementer_taille_en_tete(t_en_tete* en_tete) {
+	en_tete->taille++;
+	en_tete->colonnes = realloc(en_tete->colonnes, (en_tete->taille) * sizeof(char*));
+}
+
+void ajouter_colonne(t_en_tete* en_tete, char* valeur) {
+	int position = en_tete->taille - 1;
+	en_tete->colonnes[position] = malloc(strlen(valeur) * sizeof(char));
+	strcpy(en_tete->colonnes[position], valeur);
+}
+
+bool en_tete_contient(t_en_tete en_tete, char* valeur) {
+	for(int i=0; i< en_tete.taille; i++) {
+		if(strcmp(en_tete.colonnes[i], valeur) == 0)
+			return true;
+	}
+	return false;
+}
+
+void desallouer_en_tete(t_en_tete en_tete) {
+	for(int i=0; i<en_tete.taille; i++) {
+		free(en_tete.colonnes[i]);
+	}
+	free(en_tete.colonnes);
 }

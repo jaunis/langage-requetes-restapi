@@ -8,13 +8,13 @@
 #ifndef TYPES_H_
 #define TYPES_H_
 
-typedef struct entree {
+typedef struct t_entree {
 	char* cle;
 	char* valeur;
-} entree;
+} t_entree;
 
 typedef struct dict {
-	entree** entrees;
+	t_entree** entrees;
 	int nb_entrees;
 	int _taille_allouee;
 } dict;
@@ -33,5 +33,9 @@ typedef struct t_requete {
     char* cible;
 } t_requete;
 
+typedef struct t_en_tete {
+	char** colonnes;
+	int taille;
+} t_en_tete;
 
 #endif /* TYPES_H_ */

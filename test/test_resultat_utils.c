@@ -14,21 +14,21 @@
 #include <stdlib.h>
 
 void test_dict_valeur() {
-	entree entree1 = {
+	t_entree entree1 = {
 			.cle = "cle1",
 			.valeur = "valeur1"
 	};
 
-	entree entree2 = {
+	t_entree entree2 = {
 			.cle = "cle2",
 			.valeur = "valeur2"
 	};
-	entree entree3 = {
+	t_entree entree3 = {
 			.cle = "cle3",
 			.valeur = "valeur3"
 	};
 
-	entree* liste[] = { &entree1, &entree2, &entree3 };
+	t_entree* liste[] = { &entree1, &entree2, &entree3 };
 	dict dictionnaire = {
 			.entrees = liste,
 			.nb_entrees = 3
@@ -40,17 +40,17 @@ void test_dict_valeur() {
 }
 
 void test_dict_valeur_null() {
-	entree entree1 = {
+	t_entree entree1 = {
 			.cle = "cle1",
 			.valeur = "valeur1"
 	};
 
-	entree entree2 = {
+	t_entree entree2 = {
 			.cle = "cle2",
 			.valeur = "valeur2"
 	};
 
-	entree* liste[] = { &entree1, &entree2 };
+	t_entree* liste[] = { &entree1, &entree2 };
 	dict dictionnaire = {
 			.entrees = liste,
 			.nb_entrees = 2
