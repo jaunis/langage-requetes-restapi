@@ -1,13 +1,13 @@
 /*
- * test_dict_utils.c
+ * test_resultat_utils.c
  *
  *  Created on: 8 oct. 2013
  *      Author: jean
  */
 
 #include "../src/types.h"
-#include "../src/dict_utils.h"
-#include "test_dict_utils.h"
+#include "../src/resultat_utils.h"
+#include "test_resultat_utils.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <stdio.h>

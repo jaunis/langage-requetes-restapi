@@ -1,12 +1,12 @@
 /*
- * dict_utils.c
+ * resultat_utils.c
  *
  *  Created on: 8 oct. 2013
  *      Author: jean
  */
 
 #include "types.h"
-#include "dict_utils.h"
+#include "resultat_utils.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -48,8 +48,7 @@ void inserer_nouvelle_entree(dict* dict, const char* cle, const char* valeur) {
 	strcpy(nouvelle_entree->valeur, valeur);
 	if (dict->nb_entrees == dict->_taille_allouee) {
 		int nouvelle_taille_allouee = dict->_taille_allouee * 2;
-		dict->entrees = realloc(dict->entrees,
-				sizeof(entree*) * nouvelle_taille_allouee);
+		dict->entrees = realloc(dict->entrees, sizeof(entree*) * nouvelle_taille_allouee);
 		dict->_taille_allouee = nouvelle_taille_allouee;
 	}
 	dict->entrees[dict->nb_entrees] = nouvelle_entree;

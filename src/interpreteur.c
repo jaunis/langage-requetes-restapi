@@ -5,6 +5,7 @@
 #include "analyseur_requete.h"
 #include "executeur_requete.h"
 #include "types.h"
+#include "afficheur.h"
 
 int main(int argc, char** argv) {
     if(argc != 2) {
@@ -20,8 +21,8 @@ int main(int argc, char** argv) {
     printf("Cible : %s\n", requete.cible);
     t_resultat* resultat = malloc(sizeof(t_resultat));
     executer_requete(requete, resultat);
+    afficher_resultat(resultat);
     return 0;
-
 }
 
 void utilisation() {

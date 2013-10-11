@@ -1,4 +1,5 @@
 #include "executeur_requete.h"
+#include "analyseur_json.h"
 #include <json/json.h>
 #include <curl/curl.h>
 #include <stdio.h>
@@ -40,9 +41,8 @@ size_t callback(void* buffer, size_t size, size_t nmemb, void* userp) {
         printf("Erreur dans la requête HTTP : code %ld\n%s", http_code, str_buffer);
         return statut_ko;
     }
-    printf("Appel du callback : %s\n", str_buffer);
     t_resultat* resultat = (t_resultat*) userp;
-    if(remplir_resultat(str_buffer, resultat))
+    if(analyser_json(str_buffer, resultat))
     	return statut_ok;
     else
     	return statut_ko;
