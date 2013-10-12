@@ -18,7 +18,7 @@ bool analyser_json(char* json, t_resultat* resultat) {
 	if(jobj == NULL) {
 		printf("Erreur dans l'analyse du JSON.\n");
 		printf("JSON reçu : %s\n", json);
-		exit(1);
+		return false;
 	}
 	json_object* contenu;
 	if(!json_object_object_get_ex(jobj, "items", &contenu)) {

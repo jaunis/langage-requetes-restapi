@@ -17,6 +17,7 @@ int main(int argc, char** argv) {
     t_requete_lexemes requete_divisee = diviser_requete_en_lexemes(requete_str);
     t_requete requete;
     if(!construire_requete_et_renvoyer_statut(requete_divisee, &requete)) {
+    	printf("Requête invalide, arrêt.\n");
         return 1;
     }
     printf("Cible : %s\n", requete.cible);
@@ -25,7 +26,7 @@ int main(int argc, char** argv) {
     if(analyser_json(json, resultat))
     	afficher_resultat(resultat);
     else {
-    	printf("JSON erroné\n");
+    	printf("Impossible d'analyser le résultat, arrêt.\n");
     	return 1;
     }
     return 0;

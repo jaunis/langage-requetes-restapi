@@ -26,6 +26,7 @@ void test_afficher_resultat() {
 	liste[1] = elt2;
 	resultat->liste = liste;
 	resultat->taille = 2;
+	SORTIE_STDOUT[0] = '\0';
 
 	afficher_resultat(resultat);
 
