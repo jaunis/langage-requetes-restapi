@@ -9,15 +9,27 @@
 #include "resultat_utils.h"
 #include "analyseur_json.h"
 #include <json/json.h>
+#include <json/json_tokener.h>
 #include <stdbool.h>
+#include <stdio.h>
 
 bool analyser_json(char* json, t_resultat* resultat) {
 	json_object* jobj = json_tokener_parse(json);
+	if(jobj == NULL) {
+		printf("Erreur dans l'analyse du JSON.\n");
+		printf("JSON reçu : %s\n", json);
+		exit(1);
+	}
 	json_object* contenu;
-	if(!json_object_object_get_ex(jobj, "items", &contenu))
+	if(!json_object_object_get_ex(jobj, "items", &contenu)) {
+		free(jobj);
 		return false;
-	if(json_object_get_type(contenu) != json_type_array)
+	}
+	if(json_object_get_type(contenu) != json_type_array) {
+		free(jobj);
+		free(contenu);
 		return false;
+	}
 	int taille = json_object_array_length(contenu);
 	resultat->taille = taille;
 	resultat->liste = malloc(taille * sizeof(dict*));

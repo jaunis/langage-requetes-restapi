@@ -16,7 +16,6 @@
 #endif
 
 void afficher_resultat(t_resultat* resultat) {
-	int taille_en_tete;
 	t_en_tete en_tete = extraire_en_tete(resultat);
 	afficher_en_tete(en_tete);
 	afficher_lignes(resultat, en_tete);

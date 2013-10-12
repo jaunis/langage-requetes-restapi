@@ -8,7 +8,7 @@
 const char* REST_API_URL = "http://localhost:50050/1.1";
 CURL* curl;
 
-void executer_requete(t_requete requete, t_resultat* resultat) {
+char* executer_requete(t_requete requete) {
     CURLcode code_execution;
     curl = curl_easy_init();
     if(curl) {
@@ -17,7 +17,9 @@ void executer_requete(t_requete requete, t_resultat* resultat) {
         sprintf(url_complete, "%s/%s", REST_API_URL, requete.cible);
         curl_easy_setopt(curl, CURLOPT_URL, url_complete);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, resultat);
+        char* resultat = malloc(sizeof(char));
+        resultat[0] = '\0';
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resultat);
         code_execution = curl_easy_perform(curl);
         free(url_complete);
         curl_easy_cleanup(curl);
@@ -25,13 +27,14 @@ void executer_requete(t_requete requete, t_resultat* resultat) {
             printf("Impossible d'exécuter la requête : %s\n", curl_easy_strerror(code_execution));
             exit(1);
         }
+        return resultat;
     } else {
-        printf("Impossible d'initialiser CURL. Vérifiez que la libcurl est installé");
+        printf("Impossible d'initialiser CURL. Vérifiez que la libcurl est installée\n");
         exit(1);
     }
 }
 
-size_t callback(void* buffer, size_t size, size_t nmemb, void* userp) {
+size_t callback(void* buffer, size_t size, size_t nmemb, char** userp) {
     size_t statut_ok = size * nmemb;
     size_t statut_ko = -1;
     long http_code = 0;
@@ -41,29 +44,7 @@ size_t callback(void* buffer, size_t size, size_t nmemb, void* userp) {
         printf("Erreur dans la requête HTTP : code %ld\n%s", http_code, str_buffer);
         return statut_ko;
     }
-    t_resultat* resultat = (t_resultat*) userp;
-    if(analyser_json(str_buffer, resultat))
-    	return statut_ok;
-    else
-    	return statut_ko;
-}
-
-bool remplir_resultat(char* json, t_resultat* resultat) {
-	json_object* jobj = json_tokener_parse(json);
-	if(json_object_get_type(jobj) != json_type_object)
-		return false;
-	json_object* contenu =  json_object_object_get(jobj, "items");
-	if(json_object_get_type(contenu) != json_type_array)
-		return false;
-	int taille = json_object_array_length(contenu);
-	printf("Il y a %d éléments dans le tableau\n", taille);
-	json_object* element;
-	for(int i=0; i<taille; i++) {
-		element = json_object_array_get_idx(contenu, i);
-		printf("Elément %d :\n", i);
-		json_object_object_foreach(element, key, val) {
-			printf("Clé : %s, valeur : %s\n", key, json_object_get_string(val));
-		}
-	}
-	return true;
+    *userp = realloc(*userp, (strlen(str_buffer) + strlen(*userp) + 1) * sizeof(char));
+    strcat(*userp, str_buffer);
+    return statut_ok;
 }

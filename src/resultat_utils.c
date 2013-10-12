@@ -55,11 +55,17 @@ void inserer_nouvelle_entree(dict* dict, const char* cle, const char* valeur) {
 	(dict->nb_entrees)++;
 }
 
-
 dict* initialiser_dict(int taille_initiale) {
 	dict* dict = malloc(sizeof(dict));
 	dict->entrees = malloc(sizeof(t_entree*) * taille_initiale);
 	dict->nb_entrees = 0;
 	dict->_taille_allouee = taille_initiale;
 	return dict;
+}
+
+void free_dict(dict* dict) {
+	for(int i=0; i<dict->nb_entrees; i++) {
+		free(dict->entrees[i]);
+	}
+	free(dict);
 }
