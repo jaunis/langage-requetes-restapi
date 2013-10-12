@@ -29,9 +29,16 @@ typedef struct t_requete_lexemes {
     int taille;
 } t_requete_lexemes;
 
+typedef struct t_projection {
+	int taille;
+	char** champs;
+} t_projection;
+
 typedef struct t_requete {
     char* cible;
+    t_projection projection;
 } t_requete;
+
 
 typedef struct t_en_tete {
 	char** colonnes;

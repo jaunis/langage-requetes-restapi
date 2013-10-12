@@ -15,7 +15,8 @@ int main() {
 
     CU_pSuite suite_analyseur_requete = CU_add_suite("Tests analyseur_requetes.c", NULL, NULL);
     CU_add_test(suite_analyseur_requete, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
-    CU_add_test(suite_analyseur_requete, "test_construire_requete_et_renvoyer_statut_ok", test_construire_requete_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_requete, "test_construire_requete_etoile_et_renvoyer_statut_ok", test_construire_requete_etoile_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_requete, "test_construire_requete_selection_et_renvoyer_statut_ok", test_construire_requete_selection_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_construire_requete_et_renvoyer_statut_ko", test_construire_requete_et_renvoyer_statut_ko);
 
 	CU_pSuite suite_resultat_utils = CU_add_suite("Tests resultat_utils.c", NULL, NULL);
