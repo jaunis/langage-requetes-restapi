@@ -27,7 +27,8 @@ int main() {
 	CU_add_test(suite_resultat_utils, "test_dict_inserer_cle_existante", test_dict_inserer_cle_existante);
 
 	CU_pSuite suite_afficheur = CU_add_suite("Tests afficheur.c", NULL, NULL);
-	CU_add_test(suite_afficheur, "test_afficher_resultat", test_afficher_resultat);
+	CU_add_test(suite_afficheur, "test_afficher_resultat_complet", test_afficher_resultat_complet);
+	CU_add_test(suite_afficheur, "test_afficher_resultat_partiel", test_afficher_resultat_partiel);
 
     CU_pSuite suite_analyseur_json = CU_add_suite("Tests analyseur_json.c", NULL, NULL);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_valide", test_analyser_json_valide);

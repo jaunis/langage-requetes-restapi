@@ -24,7 +24,7 @@ int main(int argc, char** argv) {
     char* json = executer_requete(requete);
     t_resultat* resultat = malloc(sizeof(t_resultat));
     if(analyser_json(json, resultat))
-    	afficher_resultat(resultat);
+    	afficher_resultat(resultat, &requete.projection);
     else {
     	printf("Impossible d'analyser le résultat, arrêt.\n");
     	return 1;

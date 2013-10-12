@@ -15,11 +15,43 @@
 #include "../test/mocks.h"
 #endif
 
-void afficher_resultat(t_resultat* resultat) {
-	t_en_tete en_tete = extraire_en_tete(resultat);
+void afficher_resultat(t_resultat* resultat, t_projection* projection) {
+	t_en_tete en_tete = creer_en_tete(resultat, projection);
 	afficher_en_tete(en_tete);
 	afficher_lignes(resultat, en_tete);
 	desallouer_en_tete(en_tete);
+}
+
+t_en_tete creer_en_tete(t_resultat* resultat, t_projection* projection) {
+	t_en_tete en_tete = {
+			.colonnes = NULL,
+			.taille = 0
+	};
+	for(int i=0; i<projection->taille; i++) {
+		if(strcmp("*", projection->champs[i]) == 0) {
+			t_en_tete en_tete_etoile = extraire_en_tete(resultat);
+			t_en_tete nouvel_en_tete = concatener_en_tetes(en_tete, en_tete_etoile);
+			free(en_tete.colonnes);
+			free(en_tete_etoile.colonnes);
+			en_tete = nouvel_en_tete;
+		} else {
+			incrementer_taille_en_tete(&en_tete);
+			ajouter_colonne(&en_tete, projection->champs[i]);
+		}
+	}
+	return en_tete;
+}
+
+t_en_tete concatener_en_tetes(t_en_tete gauche, t_en_tete droit) {
+	t_en_tete resultat = {
+			.colonnes = malloc((gauche.taille + droit.taille) * sizeof(char*)),
+			.taille = gauche.taille + droit.taille
+	};
+	if(gauche.taille > 0)
+		memcpy(resultat.colonnes, gauche.colonnes, gauche.taille * sizeof(char*));
+	if(droit.taille > 0)
+		memcpy(&(resultat.colonnes[gauche.taille]), droit.colonnes, droit.taille * sizeof(char*));
+	return resultat;
 }
 
 t_en_tete extraire_en_tete(t_resultat* resultat) {

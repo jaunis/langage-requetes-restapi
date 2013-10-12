@@ -11,7 +11,9 @@
 #ifndef AFFICHEUR_H_
 #define AFFICHEUR_H_
 
-void afficher_resultat(t_resultat*);
+void afficher_resultat(t_resultat* resultat, t_projection* projection);
+t_en_tete creer_en_tete(t_resultat* resultat, t_projection* projection);
+t_en_tete concatener_en_tetes(t_en_tete gauche, t_en_tete droit);
 t_en_tete extraire_en_tete(t_resultat* resultat);
 void afficher_en_tete(t_en_tete en_tete);
 void afficher_lignes(t_resultat* resultat, t_en_tete en_tete);

@@ -8,6 +8,7 @@
 #ifndef TEST_AFFICHEUR_H_
 #define TEST_AFFICHEUR_H_
 
-void test_afficher_resultat();
+void test_afficher_resultat_complet();
+void test_afficher_resultat_partiel();
 
 #endif /* TEST_AFFICHEUR_H_ */
