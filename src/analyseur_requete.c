@@ -23,7 +23,7 @@ void extraire_caracteres_speciaux(char* lexeme, t_requete_lexemes* resultat) {
 		if(lexeme[j] == ',' || lexeme[j] == '=') {
 			if(strlen(sous_lexeme) > 0) {
 				resultat->tableau[resultat->taille] = sous_lexeme;
-				sous_lexeme = malloc(sizeof(lexeme));
+				sous_lexeme = malloc((strlen(lexeme) - strlen(sous_lexeme) + 1) * sizeof(char));
 				sous_lexeme[0] = '\0';
 				resultat->taille++;
 			}
