@@ -13,14 +13,15 @@ t_requete_lexemes diviser_requete_en_lexemes(char* requete) {
     	char* sous_lexeme = malloc(sizeof(lexeme));
     	sous_lexeme[0] = '\0';
     	for(int j=0; j<strlen(lexeme); j++) {
-    		if(lexeme[j] == ',') {
+    		if(lexeme[j] == ',' || lexeme[j] == '=') {
     			if(strlen(sous_lexeme) > 0) {
     				resultat.tableau[i] = sous_lexeme;
     				sous_lexeme = malloc(sizeof(lexeme));
     				sous_lexeme[0] = '\0';
     				i++;
     			}
-    			resultat.tableau[i] = ",";
+    			resultat.tableau[i] = malloc(sizeof(char));
+    			sprintf(resultat.tableau[i], "%c", lexeme[j]);
     			i++;
     		} else {
     			sprintf(sous_lexeme, "%s%c", sous_lexeme, lexeme[j]);
