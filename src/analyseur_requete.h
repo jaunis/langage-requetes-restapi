@@ -13,8 +13,10 @@ t_liste_lexemes* prefixer_expression(char** clause_where, int taille_clause_wher
 bool est_operateur(char* lexeme);
 int pop(t_pile_int** pile);
 void push(int valeur, t_pile_int** pile);
-void inserer_au_bon_endroit(char* operateur, t_liste_lexemes** resultat, int position_ou_inserer);
+void liste_lexemes_inserer(t_liste_lexemes** liste, char* element, int position);
 void ajouter_au_bout(char* lexeme, t_liste_lexemes* resultat);
+t_liste_lexemes* initialiser_liste_lexemes();
+t_pile_int* initialiser_pile_int();
 
 typedef enum etat_analyse_projection {
 	etat_initial,
