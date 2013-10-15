@@ -34,9 +34,22 @@ typedef struct t_projection {
 	char** champs;
 } t_projection;
 
+typedef enum t_element_condition {
+	operateur,
+	operande
+} t_element_condition;
+
+typedef struct t_condition {
+	t_element_condition type;
+	char* valeur;
+	struct t_condition* fils_gauche;
+	struct t_condition* fils_droit;
+} t_condition;
+
 typedef struct t_requete {
     char* cible;
     t_projection projection;
+    t_condition condition;
 } t_requete;
 
 
@@ -44,5 +57,15 @@ typedef struct t_en_tete {
 	char** colonnes;
 	int taille;
 } t_en_tete;
+
+typedef struct t_liste_lexemes {
+	char* valeur;
+	struct t_liste_lexemes* suivant;
+} t_liste_lexemes;
+
+typedef struct t_pile_int {
+	int valeur;
+	struct t_pile_int* suivant;
+} t_pile_int;
 
 #endif /* TYPES_H_ */

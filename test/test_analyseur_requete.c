@@ -107,3 +107,93 @@ void test_construire_requete_et_renvoyer_statut_ko() {
 	CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
 }
 
+void test_construire_condition_et_renvoyer_statut_ok () {
+	char** clause_where = malloc(7 * sizeof(char*));
+	clause_where[0] = "id";
+	clause_where[1] = "=";
+	clause_where[2] = "1";
+	clause_where[3] = "and";
+	clause_where[4] = "model";
+	clause_where[5] = "=";
+	clause_where[6] = "6731i";
+	t_condition* condition = malloc(sizeof(t_condition));
+
+	CU_ASSERT_EQUAL(true, construire_condition_et_renvoyer_statut(clause_where, 3, condition));
+
+	CU_ASSERT_STRING_EQUAL("and", condition->valeur);
+	CU_ASSERT_EQUAL(operateur, condition->type);
+	t_condition* f_gauche = condition->fils_gauche;
+	CU_ASSERT_STRING_EQUAL("id=1", f_gauche->valeur);
+	CU_ASSERT_EQUAL(operande, f_gauche->type);
+	t_condition* f_droit = condition->fils_droit;
+	CU_ASSERT_STRING_EQUAL("model=6731i", f_droit->valeur);
+	CU_ASSERT_EQUAL(operande, f_droit->type);
+}
+
+void test_prefixer_expression() {
+	char** clause_where = malloc(9 * sizeof(char*));
+	clause_where[0] = "(";
+	clause_where[1] = "(";
+	clause_where[2] = "id=1";;
+	clause_where[3] = "and";
+	clause_where[4] = "model=6731i";
+	clause_where[5] = ")";
+	clause_where[6] = "or";
+	clause_where[7] = "model=6737i";
+	clause_where[8] = ")";
+
+	t_liste_lexemes* resultat = prefixer_expression(clause_where, 9);
+
+	CU_ASSERT_STRING_EQUAL("or", resultat->valeur);
+	CU_ASSERT_STRING_EQUAL("and", resultat->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("id=1", resultat->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->suivant->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6737i", resultat->suivant->suivant->suivant->suivant->valeur);
+	CU_ASSERT_PTR_NULL(resultat->suivant->suivant->suivant->suivant->suivant);
+
+	clause_where[0] = "(";
+	clause_where[1] = "id=1";
+	clause_where[2] = "and";;
+	clause_where[3] = "(";
+	clause_where[4] = "model=6731i";
+	clause_where[5] = "or";
+	clause_where[6] = "model=6737i";
+	clause_where[7] = ")";
+	clause_where[8] = ")";
+
+	resultat = prefixer_expression(clause_where, 9);
+
+	CU_ASSERT_STRING_EQUAL("and", resultat->valeur);
+	CU_ASSERT_STRING_EQUAL("id=1", resultat->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("or", resultat->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->suivant->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6737i", resultat->suivant->suivant->suivant->suivant->valeur);
+	CU_ASSERT_PTR_NULL(resultat->suivant->suivant->suivant->suivant->suivant);
+
+	clause_where = realloc(clause_where, 13*sizeof(char*));
+
+	clause_where[0] = "(";
+	clause_where[1] = "(";
+	clause_where[2] = "id=1";
+	clause_where[3] = "and";;
+	clause_where[4] = "model=6731i";
+	clause_where[5] = ")";
+	clause_where[6] = "or";
+	clause_where[7] = "(";
+	clause_where[8] = "id=2";
+	clause_where[9] = "and";
+	clause_where[10] = "model=6737i";
+	clause_where[11] = ")";
+	clause_where[12] = ")";
+
+	resultat = prefixer_expression(clause_where, 13);
+
+	CU_ASSERT_STRING_EQUAL("or", resultat->valeur);
+	CU_ASSERT_STRING_EQUAL("and", resultat->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("id=1", resultat->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->suivant->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("and", resultat->suivant->suivant->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("id=2", resultat->suivant->suivant->suivant->suivant->suivant->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6737i", resultat->suivant->suivant->suivant->suivant->suivant->suivant->valeur);
+	CU_ASSERT_PTR_NULL(resultat->suivant->suivant->suivant->suivant->suivant->suivant->suivant);
+}
