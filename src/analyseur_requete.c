@@ -1,4 +1,6 @@
 #include "analyseur_requete.h"
+#include "pile_int_utils.h"
+#include "liste_str_utils.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -113,8 +115,8 @@ bool construire_condition_et_renvoyer_statut(char** clause_where, int taille_cla
 	return true;
 }
 
-t_liste_lexemes* prefixer_expression(char** clause_where, int taille_clause_where) {
-	t_liste_lexemes* resultat = initialiser_liste_lexemes();
+t_liste_str* prefixer_expression(char** clause_where, int taille_clause_where) {
+	t_liste_str* resultat = initialiser_liste_str();
 	t_pile_int* positions_ou_inserer = initialiser_pile_int();
 	int parentheses_a_fermer = 0;
 	int ou_inserer = 0;
@@ -123,7 +125,7 @@ t_liste_lexemes* prefixer_expression(char** clause_where, int taille_clause_wher
 		char* lexeme = clause_where[i];
 		if(est_operateur(lexeme)) {
 			int position_ou_inserer = pop(&positions_ou_inserer);
-			liste_lexemes_inserer(&resultat, lexeme, position_ou_inserer);
+			liste_str_inserer(&resultat, lexeme, position_ou_inserer);
 			taille_liste++;
 			ou_inserer = taille_liste;
 		} else if (strcmp("(", lexeme) == 0){
@@ -132,7 +134,7 @@ t_liste_lexemes* prefixer_expression(char** clause_where, int taille_clause_wher
 		} else if(strcmp(")", lexeme) == 0) {
 			parentheses_a_fermer--;
 		} else {
-			liste_lexemes_inserer(&resultat, lexeme, taille_liste);
+			liste_str_inserer(&resultat, lexeme, taille_liste);
 			taille_liste++;
 		}
 	}
@@ -142,69 +144,4 @@ t_liste_lexemes* prefixer_expression(char** clause_where, int taille_clause_wher
 
 bool est_operateur(char* lexeme) {
 	return (strcmp("and", lexeme) == 0 || strcmp("or", lexeme) == 0);
-}
-
-int pop(t_pile_int** pile) {
-	int resultat = (*pile)->valeur;
-	if((*pile)->suivant == NULL)
-		(*pile)->valeur = -1;
-	else
-		*pile = (*pile)->suivant;
-	return resultat;
-}
-
-void push(int valeur, t_pile_int** pile) {
-	if((*pile)->valeur == -1) {
-		(*pile)->valeur = valeur;
-	} else {
-		t_pile_int* sommet = malloc(sizeof(t_pile_int));
-		sommet->valeur = valeur;
-		sommet->suivant = *pile;
-		*pile = sommet;
-	}
-
-}
-
-void liste_lexemes_inserer(t_liste_lexemes** liste, char* element, int position) {
-	if((*liste)->valeur == NULL) {
-		if(position > 0) {
-			printf("Erreur : %s\n", element);
-			exit(1);
-		}
-		(*liste)->valeur = element;
-	} else {
-		int i = 0;
-		t_liste_lexemes* suivant = *liste;
-		t_liste_lexemes* precedent = NULL;
-		while(i < position) {
-			if(suivant == NULL) {
-				printf("Erreur : %s\n", element);
-				exit(1);
-			}
-			precedent = suivant;
-			suivant = suivant->suivant;
-			i++;
-		}
-		t_liste_lexemes* nouveau = malloc(sizeof(t_liste_lexemes));
-		nouveau->valeur = element;
-		nouveau->suivant = suivant;
-		if(precedent == NULL)
-			*liste = nouveau;
-		else
-			precedent->suivant = nouveau;
-	}
-}
-
-t_liste_lexemes* initialiser_liste_lexemes() {
-	t_liste_lexemes* resultat = malloc(sizeof(t_liste_lexemes));
-	resultat->valeur = NULL;
-	resultat->suivant = NULL;
-	return resultat;
-}
-
-t_pile_int* initialiser_pile_int() {
-	t_pile_int* resultat = malloc(sizeof(t_pile_int));
-	resultat->valeur = -1;
-	resultat->suivant = NULL;
-	return resultat;
 }

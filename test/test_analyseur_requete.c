@@ -142,7 +142,7 @@ void test_prefixer_expression() {
 	clause_where[7] = "model=6737i";
 	clause_where[8] = ")";
 
-	t_liste_lexemes* resultat = prefixer_expression(clause_where, 9);
+	t_liste_str* resultat = prefixer_expression(clause_where, 9);
 
 	CU_ASSERT_STRING_EQUAL("or", resultat->valeur);
 	CU_ASSERT_STRING_EQUAL("and", resultat->suivant->valeur);

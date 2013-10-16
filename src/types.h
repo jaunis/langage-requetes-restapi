@@ -58,10 +58,10 @@ typedef struct t_en_tete {
 	int taille;
 } t_en_tete;
 
-typedef struct t_liste_lexemes {
+typedef struct t_liste_str {
 	char* valeur;
-	struct t_liste_lexemes* suivant;
-} t_liste_lexemes;
+	struct t_liste_str* suivant;
+} t_liste_str;
 
 typedef struct t_pile_int {
 	int valeur;
