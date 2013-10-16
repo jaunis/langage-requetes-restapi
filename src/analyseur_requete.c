@@ -147,5 +147,23 @@ bool est_operateur(char* lexeme) {
 }
 
 t_condition* transformer_expression_prefixee_en_arbre(t_liste_str* expression_prefixee) {
-	return NULL;
+	t_condition* resultat = initialiser_condition(expression_prefixee->valeur);
+	if(expression_prefixee->suivant == NULL)
+		return resultat;
+	if(expression_prefixee->suivant->suivant == NULL) {
+		printf("Erreur : %s %s\n", expression_prefixee->valeur, expression_prefixee->suivant->valeur);
+		exit(1);
+	}
+	resultat->fils_droit = transformer_expression_prefixee_en_arbre(expression_prefixee->suivant->suivant);
+	expression_prefixee->suivant->suivant = NULL;
+	resultat->fils_gauche = transformer_expression_prefixee_en_arbre(expression_prefixee->suivant);
+	return resultat;
+}
+
+t_condition* initialiser_condition(char* valeur) {
+	t_condition* resultat = malloc(sizeof(t_condition));
+	resultat->valeur = valeur;
+	resultat->fils_droit = NULL;
+	resultat->fils_gauche = NULL;
+	return resultat;
 }
