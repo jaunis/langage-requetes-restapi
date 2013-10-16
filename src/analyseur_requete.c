@@ -145,3 +145,7 @@ t_liste_str* prefixer_expression(char** clause_where, int taille_clause_where) {
 bool est_operateur(char* lexeme) {
 	return (strcmp("and", lexeme) == 0 || strcmp("or", lexeme) == 0);
 }
+
+t_condition* transformer_expression_prefixee_en_arbre(t_liste_str* expression_prefixee) {
+	return NULL;
+}
