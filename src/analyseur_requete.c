@@ -71,14 +71,14 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
 
 bool analyser_projection(t_requete_lexemes lexemes, int* position, t_requete* requete) {
 	char** tableau = lexemes.tableau;
-    etat_analyse_projection etat = etat_initial;
+    etat_analyse_projection etat = projection_etat_initial;
     t_projection projection = {
     		.taille = 0,
     		.champs = malloc((lexemes.taille - 1) * sizeof(char*))
     };
-    while(etat != etat_final) {
+    while(etat != projection_etat_final) {
     	switch(etat) {
-    	case etat_initial:
+    	case projection_etat_initial:
     		if(strcmp(",", tableau[*position]) == 0) {
     			printf("Virgule inattendue en position %d\n", *position);
     			return false;
@@ -86,15 +86,15 @@ bool analyser_projection(t_requete_lexemes lexemes, int* position, t_requete* re
     		projection.champs[projection.taille] = malloc((strlen(tableau[*position]) + 1) * sizeof(char));
     		strcpy(projection.champs[projection.taille], tableau[*position]);
     		projection.taille++;
-    		etat = champ;
+    		etat = projection_champ;
     		(*position)++;
     		break;
-    	case champ:
+    	case projection_champ:
     		if(strcmp(",", tableau[*position]) == 0) {
-    			etat = etat_initial;
+    			etat = projection_etat_initial;
     			(*position)++;
     		} else {
-    			etat = etat_final;
+    			etat = projection_etat_final;
     		}
     		break;
     	}
@@ -161,5 +161,26 @@ t_condition* initialiser_condition(char* valeur) {
 	resultat->valeur = valeur;
 	resultat->fils_droit = NULL;
 	resultat->fils_gauche = NULL;
+	return resultat;
+}
+
+char** concatener_tests(char** clause_where, int taille_clause_where) {
+	char** resultat = malloc(taille_clause_where * sizeof(char*));
+	int j = 0;
+	for(int i = 0; i < taille_clause_where; i++) {
+		if(strcmp(clause_where[i], "=") == 0) {
+			if(i-1 < 0 || i + 1 >= taille_clause_where) {
+				printf("Erreur : %s", clause_where[i]);
+				exit(1);
+			}
+			int taille_test = strlen(clause_where[i - 1]) + strlen(clause_where[i]) + strlen(clause_where[i + 1]);
+			resultat[j-1] = malloc(sizeof(char) * (taille_test + 1));
+			sprintf(resultat[j-1], "%s%s%s", clause_where[i - 1], clause_where[i], clause_where[i + 1]);
+			i++;
+		} else {
+			resultat[j] = clause_where[i];
+			j++;
+		}
+	}
 	return resultat;
 }

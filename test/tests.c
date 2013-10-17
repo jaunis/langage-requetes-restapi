@@ -21,6 +21,7 @@ int main() {
     CU_add_test(suite_analyseur_requete, "test_transformer_expression_prefixee_en_arbre", test_transformer_expression_prefixee_en_arbre);
     //CU_add_test(suite_analyseur_requete, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_prefixer_expression", test_prefixer_expression);
+    CU_add_test(suite_analyseur_requete, "test_concatener_tests", test_concatener_tests);
 
 	CU_pSuite suite_resultat_utils = CU_add_suite("Tests resultat_utils.c", NULL, NULL);
 	CU_add_test(suite_resultat_utils, "test_dict_valeur", test_dict_valeur);

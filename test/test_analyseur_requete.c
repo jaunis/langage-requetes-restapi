@@ -243,3 +243,20 @@ void test_transformer_expression_prefixee_en_arbre() {
 	CU_ASSERT_STRING_EQUAL("id=2", resultat->fils_droit->fils_gauche->valeur);
 	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->fils_droit->fils_droit->valeur);
 }
+
+void test_concatener_tests() {
+	char** clause_where = malloc(7 * sizeof(char*));
+	clause_where[0] = "id";
+	clause_where[1] = "=";
+	clause_where[2] = "2";
+	clause_where[3] = "and";
+	clause_where[4] = "model";
+	clause_where[5] = "=";
+	clause_where[6] = "6721i";
+
+	char** resultat = concatener_tests(clause_where, 7);
+
+	CU_ASSERT_STRING_EQUAL("id=2", resultat[0]);
+	CU_ASSERT_STRING_EQUAL("and", resultat[1]);
+	CU_ASSERT_STRING_EQUAL("model=6721i", resultat[2]);
+}

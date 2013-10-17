@@ -13,11 +13,12 @@ t_liste_str* prefixer_expression(char** clause_where, int taille_clause_where);
 bool est_operateur(char* lexeme);
 t_condition* transformer_expression_prefixee_en_arbre(t_liste_str** expression_prefixee);
 t_condition* initialiser_condition(char* valeur);
+char** concatener_tests(char**, int);
 
 typedef enum etat_analyse_projection {
-	etat_initial,
-	champ,
-	etat_final
+	projection_etat_initial,
+	projection_champ,
+	projection_etat_final
 } etat_analyse_projection;
 
 #endif
