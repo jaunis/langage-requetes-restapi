@@ -51,7 +51,7 @@ void test_construire_requete_etoile_et_renvoyer_statut_ok() {
 void test_construire_requete_selection_et_renvoyer_statut_ok() {
     t_requete_lexemes lexemes;
     t_requete requete;
-    lexemes.tableau = malloc(sizeof(char*)*8);
+    lexemes.tableau = malloc(sizeof(char*)*16);
     lexemes.tableau[0] = "select";
     lexemes.tableau[1] = "champ1";
     lexemes.tableau[2] = ",";
@@ -60,7 +60,15 @@ void test_construire_requete_selection_et_renvoyer_statut_ok() {
     lexemes.tableau[5] = "champ3";
     lexemes.tableau[6] = "from";
     lexemes.tableau[7] = "devices";
-    lexemes.taille = 8;
+    lexemes.tableau[8] = "where";
+    lexemes.tableau[9] = "id";
+    lexemes.tableau[10] = "=";
+    lexemes.tableau[11] = "1";
+    lexemes.tableau[12] = "and";
+    lexemes.tableau[13] = "model";
+	lexemes.tableau[14] = "=";
+	lexemes.tableau[15] = "6731i";
+    lexemes.taille = 16;
 
     CU_ASSERT_EQUAL(true, construire_requete_et_renvoyer_statut(lexemes, &requete));
 
@@ -69,6 +77,9 @@ void test_construire_requete_selection_et_renvoyer_statut_ok() {
     CU_ASSERT_STRING_EQUAL("champ1", requete.projection.champs[0]);
     CU_ASSERT_STRING_EQUAL("champ2", requete.projection.champs[1]);
     CU_ASSERT_STRING_EQUAL("champ3", requete.projection.champs[2]);
+    CU_ASSERT_STRING_EQUAL("and", requete.condition.valeur);
+    CU_ASSERT_STRING_EQUAL("id=1", requete.condition.fils_gauche->valeur);
+    CU_ASSERT_STRING_EQUAL("model=6731i", requete.condition.fils_droit->valeur);
 }
 
 void test_construire_requete_et_renvoyer_statut_ko() {

@@ -62,11 +62,19 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
     	return false;
     }
 	requete->cible = tableau[no_lexeme];
-	if((no_lexeme + 1) < lexemes.taille) {
-		printf("Eléments non traités dans la requête : %s\n", tableau[no_lexeme+1]);
+	no_lexeme++;
+	if(no_lexeme == lexemes.taille)
+		return true;
+	if(strcmp(tableau[no_lexeme], "where") != 0) {
+		printf("Requête invalide : %s\n", tableau[no_lexeme]);
 		return false;
 	}
-    return true;
+	no_lexeme++;
+	if(no_lexeme == lexemes.taille) {
+		printf("Erreur : clause where vide.\n");
+		return false;
+	}
+	return construire_condition_et_renvoyer_statut(&(tableau[no_lexeme]), lexemes.taille - no_lexeme, &(requete->condition));
 }
 
 bool analyser_projection(t_requete_lexemes lexemes, int* position, t_requete* requete) {
