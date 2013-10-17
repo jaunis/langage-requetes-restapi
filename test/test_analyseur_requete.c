@@ -209,7 +209,7 @@ void test_transformer_expression_prefixee_en_arbre() {
 	liste_str_inserer(&liste, "id=2", 3);
 	liste_str_inserer(&liste, "model=6731i", 4);
 
-	t_condition* resultat = transformer_expression_prefixee_en_arbre(liste);
+	t_condition* resultat = transformer_expression_prefixee_en_arbre(&liste);
 
 	CU_ASSERT_STRING_EQUAL("and", resultat->valeur);
 	CU_ASSERT_STRING_EQUAL("id=1", resultat->fils_gauche->valeur);
@@ -222,4 +222,24 @@ void test_transformer_expression_prefixee_en_arbre() {
 	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->fils_droit->fils_droit->valeur);
 	CU_ASSERT_PTR_NULL(resultat->fils_droit->fils_droit->fils_gauche);
 	CU_ASSERT_PTR_NULL(resultat->fils_droit->fils_droit->fils_droit);
+
+	//and and id=1 model=6737i or id=2 model=6731i
+	liste = initialiser_liste_str();
+	liste_str_inserer(&liste, "and", 0);
+	liste_str_inserer(&liste, "and", 1);
+	liste_str_inserer(&liste, "id=1", 2);
+	liste_str_inserer(&liste, "model=6737i", 3);
+	liste_str_inserer(&liste, "or", 4);
+	liste_str_inserer(&liste, "id=2", 5);
+	liste_str_inserer(&liste, "model=6731i", 6);
+
+	resultat = transformer_expression_prefixee_en_arbre(&liste);
+
+	CU_ASSERT_STRING_EQUAL("and", resultat->valeur);
+	CU_ASSERT_STRING_EQUAL("and", resultat->fils_gauche->valeur);
+	CU_ASSERT_STRING_EQUAL("id=1", resultat->fils_gauche->fils_gauche->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6737i", resultat->fils_gauche->fils_droit->valeur);
+	CU_ASSERT_STRING_EQUAL("or", resultat->fils_droit->valeur);
+	CU_ASSERT_STRING_EQUAL("id=2", resultat->fils_droit->fils_gauche->valeur);
+	CU_ASSERT_STRING_EQUAL("model=6731i", resultat->fils_droit->fils_droit->valeur);
 }
