@@ -19,7 +19,7 @@ int main() {
     CU_add_test(suite_analyseur_requete, "test_construire_requete_selection_et_renvoyer_statut_ok", test_construire_requete_selection_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_construire_requete_et_renvoyer_statut_ko", test_construire_requete_et_renvoyer_statut_ko);
     CU_add_test(suite_analyseur_requete, "test_transformer_expression_prefixee_en_arbre", test_transformer_expression_prefixee_en_arbre);
-    //CU_add_test(suite_analyseur_requete, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_requete, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_prefixer_expression", test_prefixer_expression);
     CU_add_test(suite_analyseur_requete, "test_concatener_tests", test_concatener_tests);
 

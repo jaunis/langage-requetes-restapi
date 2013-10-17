@@ -104,14 +104,10 @@ bool analyser_projection(t_requete_lexemes lexemes, int* position, t_requete* re
 }
 
 bool construire_condition_et_renvoyer_statut(char** clause_where, int taille_clause_where, t_condition* condition) {
-	condition->type = operande;
-	condition->valeur = malloc(sizeof(char));
-	condition->valeur[0] = '\0';
-	for(int i=0; i< taille_clause_where; i++) {
-		int nouvelle_taille = strlen(condition->valeur) + strlen(clause_where[i]);
-		condition->valeur = realloc(condition->valeur, (nouvelle_taille + 1) * sizeof(char));
-		strcat(condition->valeur, clause_where[i]);
-	}
+	int nouvelle_taille = 0;
+	char** clause_where_concatenee = concatener_tests(clause_where, taille_clause_where, &nouvelle_taille);
+	t_liste_str* clause_prefixee = prefixer_expression(clause_where_concatenee, nouvelle_taille);
+	*condition = *transformer_expression_prefixee_en_arbre(&clause_prefixee);
 	return true;
 }
 
@@ -164,7 +160,7 @@ t_condition* initialiser_condition(char* valeur) {
 	return resultat;
 }
 
-char** concatener_tests(char** clause_where, int taille_clause_where) {
+char** concatener_tests(char** clause_where, int taille_clause_where, int* nouvelle_taille) {
 	char** resultat = malloc(taille_clause_where * sizeof(char*));
 	int j = 0;
 	for(int i = 0; i < taille_clause_where; i++) {
@@ -182,5 +178,6 @@ char** concatener_tests(char** clause_where, int taille_clause_where) {
 			j++;
 		}
 	}
+	*nouvelle_taille = j;
 	return resultat;
 }

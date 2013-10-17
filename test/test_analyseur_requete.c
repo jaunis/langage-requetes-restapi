@@ -61,7 +61,9 @@ void test_construire_requete_selection_et_renvoyer_statut_ok() {
     lexemes.tableau[6] = "from";
     lexemes.tableau[7] = "devices";
     lexemes.taille = 8;
+
     CU_ASSERT_EQUAL(true, construire_requete_et_renvoyer_statut(lexemes, &requete));
+
     CU_ASSERT_STRING_EQUAL("devices", requete.cible);
     CU_ASSERT_EQUAL(3, requete.projection.taille);
     CU_ASSERT_STRING_EQUAL("champ1", requete.projection.champs[0]);
@@ -120,16 +122,13 @@ void test_construire_condition_et_renvoyer_statut_ok () {
 	clause_where[6] = "6731i";
 	t_condition* condition = malloc(sizeof(t_condition));
 
-	CU_ASSERT_EQUAL(true, construire_condition_et_renvoyer_statut(clause_where, 3, condition));
+	CU_ASSERT_EQUAL(true, construire_condition_et_renvoyer_statut(clause_where, 7, condition));
 
 	CU_ASSERT_STRING_EQUAL("and", condition->valeur);
-	CU_ASSERT_EQUAL(operateur, condition->type);
 	t_condition* f_gauche = condition->fils_gauche;
 	CU_ASSERT_STRING_EQUAL("id=1", f_gauche->valeur);
-	CU_ASSERT_EQUAL(operande, f_gauche->type);
 	t_condition* f_droit = condition->fils_droit;
 	CU_ASSERT_STRING_EQUAL("model=6731i", f_droit->valeur);
-	CU_ASSERT_EQUAL(operande, f_droit->type);
 }
 
 void test_prefixer_expression() {
@@ -253,10 +252,12 @@ void test_concatener_tests() {
 	clause_where[4] = "model";
 	clause_where[5] = "=";
 	clause_where[6] = "6721i";
+	int nouvelle_taille = 0;
 
-	char** resultat = concatener_tests(clause_where, 7);
+	char** resultat = concatener_tests(clause_where, 7, &nouvelle_taille);
 
 	CU_ASSERT_STRING_EQUAL("id=2", resultat[0]);
 	CU_ASSERT_STRING_EQUAL("and", resultat[1]);
 	CU_ASSERT_STRING_EQUAL("model=6721i", resultat[2]);
+	CU_ASSERT_EQUAL(3, nouvelle_taille);
 }
