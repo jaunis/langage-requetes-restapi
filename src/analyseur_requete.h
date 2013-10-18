@@ -14,6 +14,7 @@ bool est_operateur(char* lexeme);
 t_condition* transformer_expression_prefixee_en_arbre(t_liste_str** expression_prefixee);
 t_condition* initialiser_condition(char* valeur);
 char** concatener_tests(char**, int, int*);
+bool est_caractere_special(char caractere);
 
 typedef enum etat_analyse_projection {
 	projection_etat_initial,

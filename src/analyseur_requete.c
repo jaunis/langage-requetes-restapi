@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+static const char CARACTERES_SPECIAUX[] = {',', '=', '(', ')'};
+
 t_requete_lexemes diviser_requete_en_lexemes(char* requete) {
     t_requete_lexemes resultat;
     //on suppose que les mots font en moyenne plus de 4 caractères
@@ -22,7 +24,7 @@ void extraire_caracteres_speciaux(char* lexeme, t_requete_lexemes* resultat) {
 	char* sous_lexeme = malloc((strlen(lexeme) + 1) * sizeof(char));
 	sous_lexeme[0] = '\0';
 	for(int j=0; j<strlen(lexeme); j++) {
-		if(lexeme[j] == ',' || lexeme[j] == '=') {
+		if(est_caractere_special(lexeme[j])) {
 			if(strlen(sous_lexeme) > 0) {
 				resultat->tableau[resultat->taille] = sous_lexeme;
 				sous_lexeme = malloc((strlen(lexeme) - strlen(sous_lexeme) + 1) * sizeof(char));
@@ -40,6 +42,15 @@ void extraire_caracteres_speciaux(char* lexeme, t_requete_lexemes* resultat) {
 		resultat->tableau[resultat->taille] = sous_lexeme;
 		resultat->taille++;
 	};
+}
+
+bool est_caractere_special(char caractere) {
+	int taille = sizeof(CARACTERES_SPECIAUX) / sizeof(char);
+	for(int i = 0; i < taille; i++) {
+		if(CARACTERES_SPECIAUX[i] == caractere)
+			return true;
+	}
+	return false;
 }
 
 bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete* requete) {
@@ -63,8 +74,12 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
     }
 	requete->cible = tableau[no_lexeme];
 	no_lexeme++;
-	if(no_lexeme == lexemes.taille)
+	if(no_lexeme == lexemes.taille) {
+		t_condition* condition = malloc(sizeof(t_condition));
+		condition->valeur = NULL;
+		requete->condition = *condition;
 		return true;
+	}
 	if(strcmp(tableau[no_lexeme], "where") != 0) {
 		printf("Requête invalide : %s\n", tableau[no_lexeme]);
 		return false;
@@ -175,7 +190,7 @@ char** concatener_tests(char** clause_where, int taille_clause_where, int* nouve
 	for(int i = 0; i < taille_clause_where; i++) {
 		if(strcmp(clause_where[i], "=") == 0) {
 			if(i-1 < 0 || i + 1 >= taille_clause_where) {
-				printf("Erreur : %s", clause_where[i]);
+				printf("Erreur : %s\n", clause_where[i]);
 				exit(1);
 			}
 			int taille_test = strlen(clause_where[i - 1]) + strlen(clause_where[i]) + strlen(clause_where[i + 1]);

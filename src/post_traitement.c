@@ -11,6 +11,8 @@
 #include "resultat_utils.h"
 
 void appliquer_clause_where(t_resultat* resultat, t_condition* condition) {
+	if(condition->valeur == NULL)
+		return;
 	dict** ancienne_liste = resultat->liste;
 	dict** nouvelle_liste = malloc(resultat->taille * sizeof(dict*));
 	int nouvelle_taille = 0;

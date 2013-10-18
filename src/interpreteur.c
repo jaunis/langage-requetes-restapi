@@ -7,6 +7,7 @@
 #include "types.h"
 #include "afficheur.h"
 #include "analyseur_json.h"
+#include "post_traitement.h"
 
 int main(int argc, char** argv) {
     if(argc != 2) {
@@ -23,8 +24,10 @@ int main(int argc, char** argv) {
     printf("Cible : %s\n", requete.cible);
     char* json = executer_requete(requete);
     t_resultat* resultat = malloc(sizeof(t_resultat));
-    if(analyser_json(json, resultat))
+    if(analyser_json(json, resultat)) {
+    	appliquer_clause_where(resultat, &(requete.condition));
     	afficher_resultat(resultat, &requete.projection);
+    }
     else {
     	printf("Impossible d'analyser le résultat, arrêt.\n");
     	return 1;
