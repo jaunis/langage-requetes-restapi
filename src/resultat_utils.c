@@ -69,3 +69,12 @@ void free_dict(dict* dict) {
 	}
 	free(dict);
 }
+
+bool dict_contient_champ(dict* dict, char* champ) {
+	for(int i = 0; i < dict->nb_entrees; i++) {
+		t_entree* entree = dict->entrees[i];
+		if(strcmp(champ, entree->cle) == 0)
+			return true;
+	}
+	return false;
+}

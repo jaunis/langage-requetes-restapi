@@ -162,7 +162,8 @@ t_condition* transformer_expression_prefixee_en_arbre(t_liste_str** expression_p
 
 t_condition* initialiser_condition(char* valeur) {
 	t_condition* resultat = malloc(sizeof(t_condition));
-	resultat->valeur = valeur;
+	resultat->valeur = malloc((strlen(valeur) + 1) * sizeof(char));
+	strcpy(resultat->valeur, valeur);
 	resultat->fils_droit = NULL;
 	resultat->fils_gauche = NULL;
 	return resultat;

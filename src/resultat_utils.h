@@ -15,5 +15,6 @@ void dict_inserer_cle_valeur(dict*, const char*, const char*);
 bool remplacer_entree_existante(dict* dict, const char* cle, const char* valeur);
 void inserer_nouvelle_entree(dict* dict, const char* cle, const char* valeur);
 void free_dict(dict* dict);
+bool dict_contient_champ(dict*, char*);
 
 #endif /* resultat_utils_H_ */

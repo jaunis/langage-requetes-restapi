@@ -2,6 +2,7 @@
 #include "test_analyseur_json.h"
 #include "test_resultat_utils.h"
 #include "test_afficheur.h"
+#include "test_post_traitement.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
@@ -37,6 +38,10 @@ int main() {
     CU_pSuite suite_analyseur_json = CU_add_suite("Tests analyseur_json.c", NULL, NULL);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_valide", test_analyser_json_valide);
 	CU_add_test(suite_analyseur_json, "test_analyser_json_invalide", test_analyser_json_invalide);
+
+	CU_pSuite suite_post_traitement = CU_add_suite("Tests post_traitement.c", NULL, NULL);
+	CU_add_test(suite_post_traitement, "test_appliquer_clause_where", test_appliquer_clause_where);
+	CU_add_test(suite_post_traitement, "test_element_verifie_condition", test_element_verifie_condition);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
