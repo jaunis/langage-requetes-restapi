@@ -8,13 +8,34 @@
 const char* REST_API_URL = "http://localhost:50050/1.1";
 CURL* curl;
 
-char* executer_requete(t_requete requete) {
+t_resultats*  executer_requete(t_requete requete) {
+	t_resultats* resultats = malloc(sizeof(t_resultats));
+	resultats->taille = 1 + requete.jointures.nb_jointures;
+	resultats->resultats = malloc(resultats->taille * sizeof(t_resultat));
+	char* json_cible = executer_requete_http(requete.cible);
+	if(resultats->taille > 1) {
+		char* prefixe = malloc(sizeof(char) * (strlen(requete.cible) + 2));
+		sprintf(prefixe, "%s.", requete.cible);
+		analyser_json(json_cible, &resultats->resultats[0], prefixe);
+	}
+	else
+		analyser_json(json_cible, &resultats->resultats[0], "");
+	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
+		char* json = executer_requete_http(requete.jointures.jointures[i].cible);
+		char* prefixe = malloc(sizeof(char) * (strlen(requete.jointures.jointures[i].cible) + 2));
+		sprintf(prefixe, "%s.", requete.jointures.jointures[i].cible);
+		analyser_json(json, &resultats->resultats[i + 1], prefixe);
+	}
+	return resultats;
+}
+
+char* executer_requete_http(char* cible) {
     CURLcode code_execution;
     curl = curl_easy_init();
     if(curl) {
-    	int taille = (strlen(REST_API_URL) + strlen(requete.cible) + 2) * sizeof(char);
+    	int taille = (strlen(REST_API_URL) + strlen(cible) + 2) * sizeof(char);
         char* url_complete = malloc(taille);
-        sprintf(url_complete, "%s/%s", REST_API_URL, requete.cible);
+        sprintf(url_complete, "%s/%s", REST_API_URL, cible);
         curl_easy_setopt(curl, CURLOPT_URL, url_complete);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
         char* resultat = malloc(sizeof(char));

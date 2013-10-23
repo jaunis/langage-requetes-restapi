@@ -22,16 +22,18 @@ int main(int argc, char** argv) {
         return 1;
     }
     printf("Cible : %s\n", requete.cible);
-    char* json = executer_requete(requete);
-    t_resultat* resultat = malloc(sizeof(t_resultat));
-    if(analyser_json(json, resultat)) {
-    	appliquer_clause_where(resultat, &(requete.condition));
-    	afficher_resultat(resultat, &requete.projection);
-    }
-    else {
-    	printf("Impossible d'analyser le résultat, arrêt.\n");
-    	return 1;
-    }
+    t_resultats* resultats = executer_requete(requete);
+    t_resultat* resultat_jointure = appliquer_jointures(resultats, requete);
+//    char* json = executer_requete_http(requete.cible);
+//    t_resultat* resultat = malloc(sizeof(t_resultat));
+//    if(analyser_json(json, resultat)) {
+	appliquer_clause_where(resultat_jointure, &(requete.condition));
+	afficher_resultat(resultat_jointure, &requete.projection);
+//    }
+//    else {
+//    	printf("Impossible d'analyser le résultat, arrêt.\n");
+//    	return 1;
+//    }
     return 0;
 }
 

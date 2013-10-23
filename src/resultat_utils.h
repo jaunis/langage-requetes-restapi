@@ -16,5 +16,6 @@ bool remplacer_entree_existante(dict* dict, const char* cle, const char* valeur)
 void inserer_nouvelle_entree(dict* dict, const char* cle, const char* valeur);
 void free_dict(dict* dict);
 bool dict_contient_champ(dict*, char*);
+void fusionner_dicts(dict*, dict*);
 
 #endif /* resultat_utils_H_ */

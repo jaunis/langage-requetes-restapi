@@ -78,3 +78,9 @@ bool dict_contient_champ(dict* dict, char* champ) {
 	}
 	return false;
 }
+
+void fusionner_dicts(dict* destination, dict* ajout) {
+	for(int i = 0; i < ajout->nb_entrees; i++) {
+		dict_inserer_cle_valeur(destination, ajout->entrees[i]->cle, ajout->entrees[i]->valeur);
+	}
+}

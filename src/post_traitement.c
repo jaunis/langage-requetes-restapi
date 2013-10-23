@@ -52,3 +52,44 @@ bool element_passe_test(dict* element, char* test) {
 	char* valeur = dict_valeur(element, champ);
 	return strcmp(valeur_attendue, valeur) == 0;
 }
+
+t_resultat* appliquer_jointures(t_resultats* resultats, t_requete requete) {
+	t_resultat* partie_gauche = &(resultats->resultats[0]);
+	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
+		t_resultat* partie_droite = &(resultats->resultats[i + 1]);
+		partie_gauche = fusionner_resultats(partie_gauche, partie_droite, requete.jointures.jointures[i]);
+	}
+	return partie_gauche;
+}
+
+t_resultat* fusionner_resultats(t_resultat* partie_gauche, t_resultat* partie_droite, t_jointure jointure) {
+	t_resultat* resultat_jointure = malloc(sizeof(t_resultat));
+	resultat_jointure->taille = partie_gauche->taille * partie_droite->taille;
+	resultat_jointure->liste = malloc(resultat_jointure->taille * sizeof(dict*));
+	int taille_reelle = 0;
+	for(int i = 0; i < partie_gauche->taille; i++) {
+		dict* ligne_gauche = partie_gauche->liste[i];
+		for(int j = 0; j < partie_droite->taille; j++) {
+			dict* ligne_droite = partie_droite->liste[j];
+			if(condition_jointure_verifiee(ligne_gauche, ligne_droite, jointure.condition)) {
+				fusionner_dicts(ligne_gauche, ligne_droite);
+				resultat_jointure->liste[taille_reelle] = ligne_gauche;
+				taille_reelle++;
+			}
+		}
+	}
+	resultat_jointure->taille = taille_reelle;
+	resultat_jointure->liste = realloc(resultat_jointure->liste, taille_reelle * sizeof(dict*));
+	return resultat_jointure;
+}
+
+bool condition_jointure_verifiee(dict* partie_gauche, dict* partie_droite, char* condition) {
+	char* temp_condition = malloc(sizeof(char) * (strlen(condition) + 1));
+	strcpy(temp_condition, condition);
+	char* champ_gauche = strtok(temp_condition, "=");
+	char* champ_droit = strtok(NULL, "=");
+
+	char* valeur_gauche = dict_valeur(partie_gauche, champ_gauche);
+	char* valeur_droite = dict_valeur(partie_droite, champ_droit);
+	return strcmp(valeur_droite, valeur_gauche) == 0;
+}

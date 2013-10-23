@@ -68,12 +68,10 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
 		return false;
 	}
     no_lexeme++;
-    if(strlen(tableau[no_lexeme]) == 0) {
-    	printf("Requête invalide : clause from vide.\n");
+    requete->cible = tableau[no_lexeme];
+    no_lexeme++;
+    if(!analyser_jointures(lexemes, &no_lexeme, requete))
     	return false;
-    }
-	requete->cible = tableau[no_lexeme];
-	no_lexeme++;
 	if(no_lexeme == lexemes.taille) {
 		t_condition* condition = malloc(sizeof(t_condition));
 		condition->valeur = NULL;
@@ -204,4 +202,57 @@ char** concatener_tests(char** clause_where, int taille_clause_where, int* nouve
 	}
 	*nouvelle_taille = j;
 	return resultat;
+}
+
+bool analyser_jointures(t_requete_lexemes lexemes, int* no_lexeme, t_requete* requete) {
+	t_jointures* jointures = malloc(sizeof(t_jointures));
+	char** tableau = lexemes.tableau;
+	jointures->nb_jointures = 0;
+	jointures->jointures = NULL;
+	etat_analyse_jointure etat = jointure_etat_initial;
+	while(etat != jointure_etat_final) {
+		switch(etat) {
+		case jointure_etat_initial:
+			if(!est_debut_jointure(lexemes, *no_lexeme))
+				etat = jointure_etat_final;
+			else {
+				(*no_lexeme)++;
+				etat = jointure_cible;
+			}
+			break;
+		case jointure_cible:
+			jointures->nb_jointures++;
+			jointures->jointures = realloc(jointures->jointures, jointures->nb_jointures * sizeof(t_jointure));
+			t_jointure jointure = {
+					.cible = tableau[*no_lexeme]
+			};
+			jointures->jointures[jointures->nb_jointures - 1] = jointure;
+			(*no_lexeme)++;
+			etat = jointure_on;
+			break;
+		case jointure_on:
+			if(strcmp("on", tableau[*no_lexeme]) == 0) {
+				(*no_lexeme)++;
+				etat = jointure_condition;
+			} else {
+				return false;
+			}
+			break;
+		case jointure_condition:;
+			int taille_condition = strlen(tableau[(*no_lexeme)]) + strlen(tableau[(*no_lexeme) + 1]) + strlen(tableau[(*no_lexeme) + 2]);
+			char* condition = malloc((taille_condition + 1) * sizeof(char));
+			sprintf(condition, "%s%s%s", tableau[(*no_lexeme)], tableau[(*no_lexeme) + 1], tableau[(*no_lexeme) + 2]);
+			jointures->jointures[jointures->nb_jointures - 1].condition = condition;
+			(*no_lexeme) += 3;
+			etat = jointure_etat_initial;
+			break;
+
+		}
+	}
+	requete->jointures = *jointures;
+	return true;
+}
+
+bool est_debut_jointure(t_requete_lexemes lexemes, int no_lexeme) {
+	return no_lexeme < lexemes.taille && strcmp("join", lexemes.tableau[no_lexeme]) == 0;
 }

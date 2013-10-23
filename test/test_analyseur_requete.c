@@ -82,6 +82,36 @@ void test_construire_requete_selection_et_renvoyer_statut_ok() {
     CU_ASSERT_STRING_EQUAL("model=6731i", requete.condition.fils_droit->valeur);
 }
 
+void test_construire_requete_join_et_renvoyer_statut_ok() {
+    t_requete_lexemes lexemes;
+    t_requete requete;
+    lexemes.tableau = malloc(sizeof(char*)*16);
+    lexemes.tableau[0] = "select";
+    lexemes.tableau[1] = "*";
+    lexemes.tableau[2] = "from";
+    lexemes.tableau[3] = "users";
+    lexemes.tableau[4] = "join";
+    lexemes.tableau[5] = "user_line";
+    lexemes.tableau[6] = "on";
+    lexemes.tableau[7] = "users.id";
+    lexemes.tableau[8] = "=";
+    lexemes.tableau[9] = "user_line.user_id";
+    lexemes.tableau[10] = "join";
+    lexemes.tableau[11] = "lines";
+    lexemes.tableau[12] = "on";
+    lexemes.tableau[13] = "user_line.line_id";
+	lexemes.tableau[14] = "=";
+	lexemes.tableau[15] = "lines.id";
+    lexemes.taille = 16;
+
+    CU_ASSERT_EQUAL(true, construire_requete_et_renvoyer_statut(lexemes, &requete));
+
+    CU_ASSERT_EQUAL(2, requete.jointures.nb_jointures);
+    CU_ASSERT_STRING_EQUAL("user_line", requete.jointures.jointures[0].cible);
+    CU_ASSERT_STRING_EQUAL("lines", requete.jointures.jointures[1].cible);
+
+}
+
 void test_construire_requete_et_renvoyer_statut_ko() {
     t_requete_lexemes lexemes;
     t_requete requete;
@@ -99,13 +129,6 @@ void test_construire_requete_et_renvoyer_statut_ko() {
     lexemes.tableau[1] = "*";
     lexemes.tableau[2] = "rfom";
     lexemes.tableau[3] = "devices";
-    lexemes.taille = 4;
-    CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
-
-    lexemes.tableau[0] = "select";
-    lexemes.tableau[1] = "*";
-    lexemes.tableau[2] = "from";
-    lexemes.tableau[3] = "";
     lexemes.taille = 4;
     CU_ASSERT_EQUAL(false, construire_requete_et_renvoyer_statut(lexemes, &requete));
 

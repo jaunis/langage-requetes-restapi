@@ -15,11 +15,21 @@ t_condition* transformer_expression_prefixee_en_arbre(t_liste_str** expression_p
 t_condition* initialiser_condition(char* valeur);
 char** concatener_tests(char**, int, int*);
 bool est_caractere_special(char caractere);
+bool analyser_jointures(t_requete_lexemes lexemes, int* no_lexeme, t_requete* requete);
+bool est_debut_jointure(t_requete_lexemes lexemes, int no_lexeme);
 
 typedef enum etat_analyse_projection {
 	projection_etat_initial,
 	projection_champ,
 	projection_etat_final
 } etat_analyse_projection;
+
+typedef enum etat_analyse_jointure {
+	jointure_etat_initial,
+	jointure_cible,
+	jointure_on,
+	jointure_condition,
+	jointure_etat_final
+} etat_analyse_jointure;
 
 #endif

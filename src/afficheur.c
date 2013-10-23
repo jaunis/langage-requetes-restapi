@@ -131,7 +131,7 @@ void incrementer_taille_en_tete(t_en_tete* en_tete) {
 
 void ajouter_colonne(t_en_tete* en_tete, char* valeur) {
 	int position = en_tete->taille - 1;
-	en_tete->colonnes[position] = malloc(strlen(valeur) * sizeof(char));
+	en_tete->colonnes[position] = malloc((strlen(valeur) + 1) * sizeof(char));
 	strcpy(en_tete->colonnes[position], valeur);
 }
 

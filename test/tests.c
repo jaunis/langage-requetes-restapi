@@ -18,6 +18,7 @@ int main() {
     CU_add_test(suite_analyseur_requete, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
     CU_add_test(suite_analyseur_requete, "test_construire_requete_etoile_et_renvoyer_statut_ok", test_construire_requete_etoile_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_construire_requete_selection_et_renvoyer_statut_ok", test_construire_requete_selection_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_requete, "test_construire_requete_join_et_renvoyer_statut_ok", test_construire_requete_join_et_renvoyer_statut_ok);
     CU_add_test(suite_analyseur_requete, "test_construire_requete_et_renvoyer_statut_ko", test_construire_requete_et_renvoyer_statut_ko);
     CU_add_test(suite_analyseur_requete, "test_transformer_expression_prefixee_en_arbre", test_transformer_expression_prefixee_en_arbre);
     CU_add_test(suite_analyseur_requete, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
@@ -42,6 +43,7 @@ int main() {
 	CU_pSuite suite_post_traitement = CU_add_suite("Tests post_traitement.c", NULL, NULL);
 	CU_add_test(suite_post_traitement, "test_appliquer_clause_where", test_appliquer_clause_where);
 	CU_add_test(suite_post_traitement, "test_element_verifie_condition", test_element_verifie_condition);
+	CU_add_test(suite_post_traitement, "test_appliquer_jointures", test_appliquer_jointures);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

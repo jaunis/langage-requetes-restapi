@@ -10,6 +10,6 @@
 #ifndef ANALYSEUR_JSON_H_
 #define ANALYSEUR_JSON_H_
 
-bool analyser_json(char* json, t_resultat* resultat);
+bool analyser_json(char* json, t_resultat* resultat, char* prefixe);
 
 #endif /* ANALYSEUR_JSON_H_ */

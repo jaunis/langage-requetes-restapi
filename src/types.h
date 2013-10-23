@@ -24,6 +24,11 @@ typedef struct t_resultat {
 	int taille;
 } t_resultat;
 
+typedef struct t_resultats {
+	int taille;
+	t_resultat* resultats;
+} t_resultats;
+
 typedef struct t_requete_lexemes {
     char** tableau;
     int taille;
@@ -46,8 +51,19 @@ typedef struct t_condition {
 	struct t_condition* fils_droit;
 } t_condition;
 
+typedef struct t_jointure {
+	char* cible;
+	char* condition;
+} t_jointure;
+
+typedef struct t_jointures {
+	int nb_jointures;
+	t_jointure* jointures;
+} t_jointures;
+
 typedef struct t_requete {
     char* cible;
+    t_jointures jointures;
     t_projection projection;
     t_condition condition;
 } t_requete;

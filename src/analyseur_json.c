@@ -12,8 +12,9 @@
 #include <json/json_tokener.h>
 #include <stdbool.h>
 #include <stdio.h>
+#include <string.h>
 
-bool analyser_json(char* json, t_resultat* resultat) {
+bool analyser_json(char* json, t_resultat* resultat, char* prefixe) {
 	json_object* jobj = json_tokener_parse(json);
 	if(jobj == NULL) {
 		printf("Erreur dans l'analyse du JSON.\n");
@@ -38,11 +39,13 @@ bool analyser_json(char* json, t_resultat* resultat) {
 		element = json_object_array_get_idx(contenu, i);
 		dict* dict = initialiser_dict(10);
 		json_object_object_foreach(element, key, val) {
+			char* cle_prefixee = malloc((strlen(prefixe) + strlen(key) + 2) * sizeof(char));
+			sprintf(cle_prefixee, "%s%s", prefixe, key);
 			json_type type = json_object_get_type(val);
 			if(type == json_type_double || type == json_type_int || type == json_type_string || type == json_type_boolean)
-				dict_inserer_cle_valeur(dict, key, json_object_get_string(val));
+				dict_inserer_cle_valeur(dict, cle_prefixee, json_object_get_string(val));
 			else if(type == json_type_null)
-				dict_inserer_cle_valeur(dict, key, "");
+				dict_inserer_cle_valeur(dict, cle_prefixee, "");
 		}
 		resultat->liste[i] = dict;
 	}
