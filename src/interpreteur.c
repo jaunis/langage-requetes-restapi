@@ -2,7 +2,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "interpreteur.h"
-#include "analyseur_requete.h"
+#include "analyseur_lexical.h"
+#include "analyseur_syntaxique.h"
 #include "executeur_requete.h"
 #include "types.h"
 #include "afficheur.h"
@@ -24,16 +25,8 @@ int main(int argc, char** argv) {
     printf("Cible : %s\n", requete.cible);
     t_resultats* resultats = executer_requete(requete);
     t_resultat* resultat_jointure = appliquer_jointures(resultats, requete);
-//    char* json = executer_requete_http(requete.cible);
-//    t_resultat* resultat = malloc(sizeof(t_resultat));
-//    if(analyser_json(json, resultat)) {
 	appliquer_clause_where(resultat_jointure, &(requete.condition));
 	afficher_resultat(resultat_jointure, &requete.projection);
-//    }
-//    else {
-//    	printf("Impossible d'analyser le résultat, arrêt.\n");
-//    	return 1;
-//    }
     return 0;
 }
 

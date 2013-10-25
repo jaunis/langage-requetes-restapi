@@ -1,4 +1,5 @@
-#include "../src/analyseur_requete.h"
+#include "../src/analyseur_syntaxique.h"
+#include "../src/analyseur_lexical.h"
 #include "../src/utils/liste_str_utils.h"
 #include "../src/utils/pile_int_utils.h"
 #include <CUnit/CUnit.h>

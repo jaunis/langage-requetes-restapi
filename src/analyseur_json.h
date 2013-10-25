@@ -6,6 +6,7 @@
  */
 
 #include <stdbool.h>
+#include <json/json.h>
 
 #ifndef ANALYSEUR_JSON_H_
 #define ANALYSEUR_JSON_H_

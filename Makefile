@@ -9,11 +9,12 @@ TESTFLAGS=-lcunit
 MAIN = bin/interpreteur.o
 
 OBJECTS = bin/post_traitement.o
-OBJECTS += bin/analyseur_requete.o
+OBJECTS += bin/analyseur_syntaxique.o
 OBJECTS += bin/executeur_requete.o
-OBJECTS += bin/utils/dict_utils.o
 OBJECTS += bin/analyseur_json.o
 OBJECTS += bin/afficheur.o
+OBJECTS += bin/analyseur_lexical.o
+OBJECTS += bin/utils/dict_utils.o
 OBJECTS += bin/utils/pile_int_utils.o
 OBJECTS += bin/utils/liste_str_utils.o
 

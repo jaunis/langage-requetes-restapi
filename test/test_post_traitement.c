@@ -9,7 +9,7 @@
 #include <CUnit/CUnit.h>
 #include <stdlib.h>
 #include "../src/types.h"
-#include "../src/analyseur_requete.h"
+#include "../src/analyseur_syntaxique.h"
 #include "../src/utils/dict_utils.h"
 #include "../src/post_traitement.h"
 

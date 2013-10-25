@@ -1,6 +1,7 @@
-#include "analyseur_requete.h"
+//#include "analyseur_syntaxique.h"
 #include "types.h"
 #include <curl/curl.h>
+#include <stdbool.h>
 
 #ifndef EXECUTEUR_REQUETE_H
 #define EXECUTEUR_REQUETE_H
