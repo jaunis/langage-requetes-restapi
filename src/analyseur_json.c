@@ -31,11 +31,10 @@ bool analyser_json(char* json, t_resultat* resultat, char* prefixe) {
 		free(contenu);
 		return false;
 	}
-	int taille = json_object_array_length(contenu);
-	resultat->taille = taille;
-	resultat->liste = malloc(taille * sizeof(dict*));
+	resultat->taille = json_object_array_length(contenu);
+	resultat->liste = malloc(resultat->taille * sizeof(dict*));
 	json_object* element;
-	for(int i=0; i<taille; i++) {
+	for(int i=0; i<resultat->taille; i++) {
 		element = json_object_array_get_idx(contenu, i);
 		dict* dict = initialiser_dict(10);
 		remplir_dict_avec_element(dict, element, prefixe);

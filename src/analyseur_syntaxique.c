@@ -5,6 +5,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+void inserer_condition_vide(t_requete* requete) {
+	t_condition* condition = malloc(sizeof(t_condition));
+	condition->valeur = NULL;
+	requete->condition = *condition;
+}
+
 bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete* requete) {
     int no_lexeme = 0;
     char** tableau = lexemes.tableau;
@@ -16,7 +22,7 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
     if(!analyser_projection(lexemes, &no_lexeme, requete))
     	return false;
     if(strcmp(tableau[no_lexeme], "from") != 0) {
-		printf("Requête invalide. Attendu : from, reçu: %s\n", tableau[2]);
+		printf("Requête invalide. Attendu : from, reçu : %s\n", tableau[2]);
 		return false;
 	}
     no_lexeme++;
@@ -25,13 +31,11 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
     if(!analyser_jointures(lexemes, &no_lexeme, requete))
     	return false;
 	if(no_lexeme == lexemes.taille) {
-		t_condition* condition = malloc(sizeof(t_condition));
-		condition->valeur = NULL;
-		requete->condition = *condition;
+		inserer_condition_vide(requete);
 		return true;
 	}
 	if(strcmp(tableau[no_lexeme], "where") != 0) {
-		printf("Requête invalide : %s\n", tableau[no_lexeme]);
+		printf("Requête invalide. Attendu : where, reçu : %s\n", tableau[no_lexeme]);
 		return false;
 	}
 	no_lexeme++;

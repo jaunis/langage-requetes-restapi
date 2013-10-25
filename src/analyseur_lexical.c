@@ -37,7 +37,7 @@ void extraire_caracteres_speciaux(char* lexeme, t_requete_lexemes* resultat) {
 				sous_lexeme[0] = '\0';
 				resultat->taille++;
 			}
-			resultat->tableau[resultat->taille] = malloc(sizeof(char));
+			resultat->tableau[resultat->taille] = malloc(2*sizeof(char));
 			sprintf(resultat->tableau[resultat->taille], "%c", lexeme[j]);
 			resultat->taille++;
 		} else {
