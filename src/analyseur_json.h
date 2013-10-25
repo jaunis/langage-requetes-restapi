@@ -11,5 +11,6 @@
 #define ANALYSEUR_JSON_H_
 
 bool analyser_json(char* json, t_resultat* resultat, char* prefixe);
+void remplir_dict_avec_element(dict* dict, json_object* element, char* prefixe);
 
 #endif /* ANALYSEUR_JSON_H_ */

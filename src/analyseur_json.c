@@ -38,16 +38,20 @@ bool analyser_json(char* json, t_resultat* resultat, char* prefixe) {
 	for(int i=0; i<taille; i++) {
 		element = json_object_array_get_idx(contenu, i);
 		dict* dict = initialiser_dict(10);
-		json_object_object_foreach(element, key, val) {
-			char* cle_prefixee = malloc((strlen(prefixe) + strlen(key) + 2) * sizeof(char));
-			sprintf(cle_prefixee, "%s%s", prefixe, key);
-			json_type type = json_object_get_type(val);
-			if(type == json_type_double || type == json_type_int || type == json_type_string || type == json_type_boolean)
-				dict_inserer_cle_valeur(dict, cle_prefixee, json_object_get_string(val));
-			else if(type == json_type_null)
-				dict_inserer_cle_valeur(dict, cle_prefixee, "");
-		}
+		remplir_dict_avec_element(dict, element, prefixe);
 		resultat->liste[i] = dict;
 	}
 	return true;
+}
+
+void remplir_dict_avec_element(dict* dict, json_object* element, char* prefixe) {
+	json_object_object_foreach(element, key, val) {
+		char* cle_prefixee = malloc((strlen(prefixe) + strlen(key) + 2) * sizeof(char));
+		sprintf(cle_prefixee, "%s%s", prefixe, key);
+		json_type type = json_object_get_type(val);
+		if(type == json_type_double || type == json_type_int || type == json_type_string || type == json_type_boolean)
+			dict_inserer_cle_valeur(dict, cle_prefixee, json_object_get_string(val));
+		else if(type == json_type_null)
+			dict_inserer_cle_valeur(dict, cle_prefixee, "");
+	}
 }
