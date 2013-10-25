@@ -6,8 +6,8 @@
  */
 
 #include "../src/types.h"
-#include "../src/resultat_utils.h"
-#include "test_resultat_utils.h"
+#include "../src/utils/dict_utils.h"
+#include "test_dict_utils.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <stdio.h>

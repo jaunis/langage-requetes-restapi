@@ -1,6 +1,6 @@
 #include "../src/types.h"
 #include "../src/analyseur_json.h"
-#include "../src/resultat_utils.h"
+#include "../src/utils/dict_utils.h"
 #include "test_analyseur_json.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>

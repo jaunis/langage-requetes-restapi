@@ -7,7 +7,7 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include "types.h"
+#include "../types.h"
 #include "liste_str_utils.h"
 
 void liste_str_inserer(t_liste_str** liste, char* element, int position) {

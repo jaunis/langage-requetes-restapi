@@ -8,7 +8,7 @@
 #include "test_afficheur.h"
 #include "mocks.h"
 #include "../src/types.h"
-#include "../src/resultat_utils.h"
+#include "../src/utils/dict_utils.h"
 #include "../src/afficheur.h"
 #include <CUnit/CUnit.h>
 #include <stdlib.h>

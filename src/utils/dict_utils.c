@@ -5,8 +5,8 @@
  *      Author: jean
  */
 
-#include "types.h"
-#include "resultat_utils.h"
+#include "../types.h"
+#include "dict_utils.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdbool.h>

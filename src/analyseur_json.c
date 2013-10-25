@@ -6,7 +6,7 @@
  */
 
 #include "types.h"
-#include "resultat_utils.h"
+#include "utils/dict_utils.h"
 #include "analyseur_json.h"
 #include <json/json.h>
 #include <json/json_tokener.h>

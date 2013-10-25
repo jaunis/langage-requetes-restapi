@@ -6,7 +6,7 @@
  */
 
 #include "afficheur.h"
-#include "resultat_utils.h"
+#include "utils/dict_utils.h"
 #include <string.h>
 #include <stdlib.h>
 #ifndef CUNIT

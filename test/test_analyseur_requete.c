@@ -1,6 +1,6 @@
 #include "../src/analyseur_requete.h"
-#include "../src/liste_str_utils.h"
-#include "../src/pile_int_utils.h"
+#include "../src/utils/liste_str_utils.h"
+#include "../src/utils/pile_int_utils.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 #include <stdbool.h>

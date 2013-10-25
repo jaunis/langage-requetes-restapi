@@ -8,7 +8,7 @@
 #include "post_traitement.h"
 #include <stdlib.h>
 #include <string.h>
-#include "resultat_utils.h"
+#include "utils/dict_utils.h"
 
 void appliquer_clause_where(t_resultat* resultat, t_condition* condition) {
 	if(condition->valeur == NULL)

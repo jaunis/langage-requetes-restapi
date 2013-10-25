@@ -1,6 +1,6 @@
 #include "analyseur_requete.h"
-#include "pile_int_utils.h"
-#include "liste_str_utils.h"
+#include "utils/pile_int_utils.h"
+#include "utils/liste_str_utils.h"
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>

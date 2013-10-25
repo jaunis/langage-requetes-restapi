@@ -6,15 +6,33 @@ else
 endif
 TESTFLAGS=-lcunit
 
+MAIN = bin/interpreteur.o
 
-all: bin/post_traitement.o bin/analyseur_requete.o bin/executeur_requete.o bin/interpreteur.o bin/resultat_utils.o bin/analyseur_json.o bin/afficheur.o bin/pile_int_utils.o bin/liste_str_utils.o
-	rm -f bin/tests.o; gcc -o interpreteur bin/*.o $(CFLAGS)
+OBJECTS = bin/post_traitement.o
+OBJECTS += bin/analyseur_requete.o
+OBJECTS += bin/executeur_requete.o
+OBJECTS += bin/utils/dict_utils.o
+OBJECTS += bin/analyseur_json.o
+OBJECTS += bin/afficheur.o
+OBJECTS += bin/utils/pile_int_utils.o
+OBJECTS += bin/utils/liste_str_utils.o
 
-test: bin/test/test_analyseur_requete.o bin/analyseur_requete.o bin/test/test_post_traitement.o bin/post_traitement.o bin/test/tests.o bin/test/test_analyseur_json.o bin/resultat_utils.o bin/analyseur_json.o bin/test/test_resultat_utils.o bin/test/mocks.o bin/test/test_afficheur.o bin/afficheur.o bin/pile_int_utils.o bin/liste_str_utils.o
-	rm -f bin/interpreteur.o; gcc -o tests bin/*.o bin/test/*.o $(CFLAGS) $(TESTFLAGS)
+TEST_OBJECTS = bin/test/test_analyseur_requete.o
+TEST_OBJECTS += bin/test/test_post_traitement.o
+TEST_OBJECTS += bin/test/tests.o
+TEST_OBJECTS += bin/test/test_analyseur_json.o
+TEST_OBJECTS += bin/test/test_dict_utils.o
+TEST_OBJECTS += bin/test/mocks.o
+TEST_OBJECTS += bin/test/test_afficheur.o
+
+all: $(OBJECTS) $(MAIN)
+	rm -f bin/tests.o; gcc -o interpreteur $(OBJECTS) $(MAIN) $(CFLAGS)
+
+test: $(OBJECTS) $(TEST_OBJECTS)
+	rm -f bin/interpreteur.o; gcc -o tests $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS) $(TESTFLAGS)
 
 clean:
-	rm -f bin/*.o bin/test/*.o tests interpreteur
+	rm -f bin/**/*.o bin/*.o tests interpreteur
 
 bin/test/%.o: test/%.c
 	gcc -c $< -o $@ $(CFLAGS) $(TESTFLAGS)

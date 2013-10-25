@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "../src/types.h"
 #include "../src/analyseur_requete.h"
-#include "../src/resultat_utils.h"
+#include "../src/utils/dict_utils.h"
 #include "../src/post_traitement.h"
 
 void test_appliquer_clause_where() {

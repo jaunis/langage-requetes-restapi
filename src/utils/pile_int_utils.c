@@ -6,7 +6,7 @@
  */
 
 #include <stdlib.h>
-#include "types.h"
+#include "../types.h"
 #include "pile_int_utils.h"
 
 int pop(t_pile_int** pile) {
