@@ -80,14 +80,14 @@ void test_appliquer_jointures() {
 	strcpy(jointure.condition, condition);
 	t_jointures jointures = {
 			.nb_jointures = 1,
-			.jointures = malloc(sizeof(t_jointure))
+			.liste = malloc(sizeof(t_jointure))
 	};
 
 	t_requete requete = {
 			.cible = "devices",
 			.jointures = jointures
 	};
-	jointures.jointures[0] = jointure;
+	jointures.liste[0] = jointure;
 
 	t_resultat devices = {
 			.taille = 3,
@@ -149,14 +149,14 @@ void test_appliquer_jointures_champ_inexistant() {
 	strcpy(jointure.condition, condition);
 	t_jointures jointures = {
 			.nb_jointures = 1,
-			.jointures = malloc(sizeof(t_jointure))
+			.liste = malloc(sizeof(t_jointure))
 	};
 
 	t_requete requete = {
 			.cible = "devices",
 			.jointures = jointures
 	};
-	jointures.jointures[0] = jointure;
+	jointures.liste[0] = jointure;
 
 	t_resultat devices = {
 			.taille = 3,

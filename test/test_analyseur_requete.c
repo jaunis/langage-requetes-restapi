@@ -108,8 +108,8 @@ void test_construire_requete_join_et_renvoyer_statut_ok() {
     CU_ASSERT_EQUAL(true, construire_requete_et_renvoyer_statut(lexemes, &requete));
 
     CU_ASSERT_EQUAL(2, requete.jointures.nb_jointures);
-    CU_ASSERT_STRING_EQUAL("user_line", requete.jointures.jointures[0].cible);
-    CU_ASSERT_STRING_EQUAL("lines", requete.jointures.jointures[1].cible);
+    CU_ASSERT_STRING_EQUAL("user_line", requete.jointures.liste[0].cible);
+    CU_ASSERT_STRING_EQUAL("lines", requete.jointures.liste[1].cible);
 
 }
 

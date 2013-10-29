@@ -21,9 +21,9 @@ t_resultats*  executer_requete(t_requete requete) {
 	else
 		analyser_json(json_cible, &resultats->resultats[0], "");
 	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
-		char* json = executer_requete_http(requete.jointures.jointures[i].cible);
-		char* prefixe = malloc(sizeof(char) * (strlen(requete.jointures.jointures[i].cible) + 2));
-		sprintf(prefixe, "%s.", requete.jointures.jointures[i].cible);
+		char* json = executer_requete_http(requete.jointures.liste[i].cible);
+		char* prefixe = malloc(sizeof(char) * (strlen(requete.jointures.liste[i].cible) + 2));
+		sprintf(prefixe, "%s.", requete.jointures.liste[i].cible);
 		analyser_json(json, &resultats->resultats[i + 1], prefixe);
 	}
 	return resultats;

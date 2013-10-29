@@ -57,7 +57,7 @@ t_resultat* appliquer_jointures(t_resultats* resultats, t_requete requete) {
 	t_resultat* partie_gauche = &(resultats->resultats[0]);
 	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
 		t_resultat* partie_droite = &(resultats->resultats[i + 1]);
-		partie_gauche = fusionner_resultats(partie_gauche, partie_droite, requete.jointures.jointures[i]);
+		partie_gauche = fusionner_resultats(partie_gauche, partie_droite, requete.jointures.liste[i]);
 	}
 	return partie_gauche;
 }

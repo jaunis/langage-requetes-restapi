@@ -58,7 +58,7 @@ typedef struct t_jointure {
 
 typedef struct t_jointures {
 	int nb_jointures;
-	t_jointure* jointures;
+	t_jointure* liste;
 } t_jointures;
 
 typedef struct t_requete {

@@ -164,7 +164,7 @@ bool analyser_jointures(t_requete_lexemes lexemes, int* no_lexeme, t_requete* re
 	t_jointures* jointures = malloc(sizeof(t_jointures));
 	char** tableau = lexemes.tableau;
 	jointures->nb_jointures = 0;
-	jointures->jointures = NULL;
+	jointures->liste = NULL;
 	etat_analyse_jointure etat = jointure_etat_initial;
 	while(etat != jointure_etat_final) {
 		switch(etat) {
@@ -178,11 +178,11 @@ bool analyser_jointures(t_requete_lexemes lexemes, int* no_lexeme, t_requete* re
 			break;
 		case jointure_cible:
 			jointures->nb_jointures++;
-			jointures->jointures = realloc(jointures->jointures, jointures->nb_jointures * sizeof(t_jointure));
+			jointures->liste = realloc(jointures->liste, jointures->nb_jointures * sizeof(t_jointure));
 			t_jointure jointure = {
 					.cible = tableau[*no_lexeme]
 			};
-			jointures->jointures[jointures->nb_jointures - 1] = jointure;
+			jointures->liste[jointures->nb_jointures - 1] = jointure;
 			(*no_lexeme)++;
 			etat = jointure_on;
 			break;
@@ -198,7 +198,7 @@ bool analyser_jointures(t_requete_lexemes lexemes, int* no_lexeme, t_requete* re
 			int taille_condition = strlen(tableau[(*no_lexeme)]) + strlen(tableau[(*no_lexeme) + 1]) + strlen(tableau[(*no_lexeme) + 2]);
 			char* condition = malloc((taille_condition + 1) * sizeof(char));
 			sprintf(condition, "%s%s%s", tableau[(*no_lexeme)], tableau[(*no_lexeme) + 1], tableau[(*no_lexeme) + 2]);
-			jointures->jointures[jointures->nb_jointures - 1].condition = condition;
+			jointures->liste[jointures->nb_jointures - 1].condition = condition;
 			(*no_lexeme) += 3;
 			etat = jointure_etat_initial;
 			break;
