@@ -91,5 +91,7 @@ bool condition_jointure_verifiee(dict* partie_gauche, dict* partie_droite, char*
 
 	char* valeur_gauche = dict_valeur(partie_gauche, champ_gauche);
 	char* valeur_droite = dict_valeur(partie_droite, champ_droit);
+	if(valeur_gauche == NULL || valeur_droite == NULL)
+		return false;
 	return strcmp(valeur_droite, valeur_gauche) == 0;
 }

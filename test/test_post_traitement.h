@@ -11,5 +11,6 @@
 void test_appliquer_clause_where();
 void test_element_verifie_condition();
 void test_appliquer_jointures();
+void test_appliquer_jointures_champ_inexistant();
 
 #endif /* TEST_POST_TRAITEMENT_H_ */

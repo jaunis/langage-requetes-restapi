@@ -44,6 +44,7 @@ int main() {
 	CU_add_test(suite_post_traitement, "test_appliquer_clause_where", test_appliquer_clause_where);
 	CU_add_test(suite_post_traitement, "test_element_verifie_condition", test_element_verifie_condition);
 	CU_add_test(suite_post_traitement, "test_appliquer_jointures", test_appliquer_jointures);
+	CU_add_test(suite_post_traitement, "test_appliquer_jointures_champ_inexistant", test_appliquer_jointures_champ_inexistant);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();

@@ -30,7 +30,7 @@ all: $(OBJECTS) $(MAIN)
 	rm -f bin/tests.o; gcc -o interpreteur $(OBJECTS) $(MAIN) $(CFLAGS)
 
 test: $(OBJECTS) $(TEST_OBJECTS)
-	rm -f bin/interpreteur.o; gcc -o tests $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS) $(TESTFLAGS)
+	rm -f $(MAIN); gcc -o tests $(OBJECTS) $(TEST_OBJECTS) $(CFLAGS) $(TESTFLAGS)
 
 clean:
 	rm -f bin/**/*.o bin/*.o tests interpreteur

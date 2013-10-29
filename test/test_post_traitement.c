@@ -139,3 +139,66 @@ void test_appliquer_jointures() {
 	CU_ASSERT_STRING_EQUAL("2", dict_valeur(deuxieme, "devices.id"));
 	CU_ASSERT_STRING_EQUAL("72", dict_valeur(deuxieme, "ref_devices.id"));
 }
+
+void test_appliquer_jointures_champ_inexistant() {
+	char* condition = "devices.id=ref_devices.devices_id";
+	t_jointure jointure = {
+			.cible = "ref_devices",
+			.condition = malloc((strlen(condition) + 1) * sizeof(char))
+	};
+	strcpy(jointure.condition, condition);
+	t_jointures jointures = {
+			.nb_jointures = 1,
+			.jointures = malloc(sizeof(t_jointure))
+	};
+
+	t_requete requete = {
+			.cible = "devices",
+			.jointures = jointures
+	};
+	jointures.jointures[0] = jointure;
+
+	t_resultat devices = {
+			.taille = 3,
+			.liste = malloc(3 * sizeof(dict*))
+	};
+	dict* dev = initialiser_dict(2);
+	dict_inserer_cle_valeur(dev, "devices.id", "1");
+	dict_inserer_cle_valeur(dev, "devices.model", "6737i");
+	devices.liste[0] = dev;
+
+	dev = initialiser_dict(2);
+	dict_inserer_cle_valeur(dev, "devices.id", "2");
+	dict_inserer_cle_valeur(dev, "devices.model", "6731i");
+	devices.liste[1] = dev;
+
+	dev = initialiser_dict(2);
+	dict_inserer_cle_valeur(dev, "devices.id", "3");
+	dict_inserer_cle_valeur(dev, "devices.model", "6731i");
+	devices.liste[2] = dev;
+
+	t_resultat ref_devices = {
+			.liste = malloc(2 * sizeof(dict*)),
+			.taille = 2
+	};
+	dict* ref = initialiser_dict(2);
+	dict_inserer_cle_valeur(ref, "ref_devices.id", "71");
+	dict_inserer_cle_valeur(ref, "ref_devices.device_id", "1");
+	ref_devices.liste[0] = ref;
+
+	ref = initialiser_dict(2);
+	dict_inserer_cle_valeur(ref, "ref_devices.id", "72");
+	dict_inserer_cle_valeur(ref, "ref_devices.device_id", "2");
+	ref_devices.liste[1] = ref;
+
+	t_resultats resultats = {
+			.taille = 2,
+			.resultats = malloc(2 * sizeof(t_resultat))
+	};
+	resultats.resultats[0] = devices;
+	resultats.resultats[1] = ref_devices;
+
+	t_resultat* resultat_jointure = appliquer_jointures(&resultats, requete);
+
+	CU_ASSERT_EQUAL(0, resultat_jointure->taille);
+}
