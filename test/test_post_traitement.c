@@ -124,10 +124,10 @@ void test_appliquer_jointures() {
 
 	t_resultats resultats = {
 			.taille = 2,
-			.resultats = malloc(2 * sizeof(t_resultat))
+			.liste = malloc(2 * sizeof(t_resultat))
 	};
-	resultats.resultats[0] = devices;
-	resultats.resultats[1] = ref_devices;
+	resultats.liste[0] = devices;
+	resultats.liste[1] = ref_devices;
 
 	t_resultat* resultat_jointure = appliquer_jointures(&resultats, requete);
 
@@ -193,10 +193,10 @@ void test_appliquer_jointures_champ_inexistant() {
 
 	t_resultats resultats = {
 			.taille = 2,
-			.resultats = malloc(2 * sizeof(t_resultat))
+			.liste = malloc(2 * sizeof(t_resultat))
 	};
-	resultats.resultats[0] = devices;
-	resultats.resultats[1] = ref_devices;
+	resultats.liste[0] = devices;
+	resultats.liste[1] = ref_devices;
 
 	t_resultat* resultat_jointure = appliquer_jointures(&resultats, requete);
 

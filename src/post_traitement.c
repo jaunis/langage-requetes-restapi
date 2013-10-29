@@ -54,9 +54,9 @@ bool element_passe_test(dict* element, char* test) {
 }
 
 t_resultat* appliquer_jointures(t_resultats* resultats, t_requete requete) {
-	t_resultat* partie_gauche = &(resultats->resultats[0]);
+	t_resultat* partie_gauche = &(resultats->liste[0]);
 	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
-		t_resultat* partie_droite = &(resultats->resultats[i + 1]);
+		t_resultat* partie_droite = &(resultats->liste[i + 1]);
 		partie_gauche = fusionner_resultats(partie_gauche, partie_droite, requete.jointures.liste[i]);
 	}
 	return partie_gauche;

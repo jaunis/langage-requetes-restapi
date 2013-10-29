@@ -26,7 +26,7 @@ typedef struct t_resultat {
 
 typedef struct t_resultats {
 	int taille;
-	t_resultat* resultats;
+	t_resultat* liste;
 } t_resultats;
 
 typedef struct t_requete_lexemes {

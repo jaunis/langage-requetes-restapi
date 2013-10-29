@@ -11,20 +11,20 @@ CURL* curl;
 t_resultats*  executer_requete(t_requete requete) {
 	t_resultats* resultats = malloc(sizeof(t_resultats));
 	resultats->taille = 1 + requete.jointures.nb_jointures;
-	resultats->resultats = malloc(resultats->taille * sizeof(t_resultat));
+	resultats->liste = malloc(resultats->taille * sizeof(t_resultat));
 	char* json_cible = executer_requete_http(requete.cible);
 	if(resultats->taille > 1) {
 		char* prefixe = malloc(sizeof(char) * (strlen(requete.cible) + 2));
 		sprintf(prefixe, "%s.", requete.cible);
-		analyser_json(json_cible, &resultats->resultats[0], prefixe);
+		analyser_json(json_cible, &resultats->liste[0], prefixe);
 	}
 	else
-		analyser_json(json_cible, &resultats->resultats[0], "");
+		analyser_json(json_cible, &resultats->liste[0], "");
 	for(int i = 0; i < requete.jointures.nb_jointures; i++) {
 		char* json = executer_requete_http(requete.jointures.liste[i].cible);
 		char* prefixe = malloc(sizeof(char) * (strlen(requete.jointures.liste[i].cible) + 2));
 		sprintf(prefixe, "%s.", requete.jointures.liste[i].cible);
-		analyser_json(json, &resultats->resultats[i + 1], prefixe);
+		analyser_json(json, &resultats->liste[i + 1], prefixe);
 	}
 	return resultats;
 }
