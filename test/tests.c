@@ -1,4 +1,5 @@
-#include "test_analyseur_requete.h"
+#include "test_analyseur_lexical.h"
+#include "test_analyseur_syntaxique.h"
 #include "test_analyseur_json.h"
 #include "test_dict_utils.h"
 #include "test_afficheur.h"

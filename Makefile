@@ -18,7 +18,8 @@ OBJECTS += bin/utils/dict_utils.o
 OBJECTS += bin/utils/pile_int_utils.o
 OBJECTS += bin/utils/liste_str_utils.o
 
-TEST_OBJECTS = bin/test/test_analyseur_requete.o
+TEST_OBJECTS = bin/test/test_analyseur_syntaxique.o
+TEST_OBJECTS += bin/test/test_analyseur_lexical.o
 TEST_OBJECTS += bin/test/test_post_traitement.o
 TEST_OBJECTS += bin/test/tests.o
 TEST_OBJECTS += bin/test/test_analyseur_json.o
