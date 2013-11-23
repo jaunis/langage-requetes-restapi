@@ -4,6 +4,7 @@
 #include "test_dict_utils.h"
 #include "test_afficheur.h"
 #include "test_post_traitement.h"
+#include "test_analyseur_semantique.h"
 #include <CUnit/CUnit.h>
 #include <CUnit/Basic.h>
 
@@ -15,16 +16,23 @@ int main() {
 //	test_construire_condition_et_renvoyer_statut_ok();
     CU_initialize_registry();
 
-    CU_pSuite suite_analyseur_requete = CU_add_suite("Tests analyseur_requetes.c", NULL, NULL);
-    CU_add_test(suite_analyseur_requete, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
-    CU_add_test(suite_analyseur_requete, "test_construire_requete_etoile_et_renvoyer_statut_ok", test_construire_requete_etoile_et_renvoyer_statut_ok);
-    CU_add_test(suite_analyseur_requete, "test_construire_requete_selection_et_renvoyer_statut_ok", test_construire_requete_selection_et_renvoyer_statut_ok);
-    CU_add_test(suite_analyseur_requete, "test_construire_requete_join_et_renvoyer_statut_ok", test_construire_requete_join_et_renvoyer_statut_ok);
-    CU_add_test(suite_analyseur_requete, "test_construire_requete_et_renvoyer_statut_ko", test_construire_requete_et_renvoyer_statut_ko);
-    CU_add_test(suite_analyseur_requete, "test_transformer_expression_prefixee_en_arbre", test_transformer_expression_prefixee_en_arbre);
-    CU_add_test(suite_analyseur_requete, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
-    CU_add_test(suite_analyseur_requete, "test_prefixer_expression", test_prefixer_expression);
-    CU_add_test(suite_analyseur_requete, "test_concatener_tests", test_concatener_tests);
+    CU_pSuite suite_analyseur_lexical = CU_add_suite("Tests analyseur_lexical.c", NULL, NULL);
+    CU_add_test(suite_analyseur_lexical, "test_diviser_requete_en_lexemes", test_diviser_requete_en_lexemes);
+
+    CU_pSuite suite_analyseur_syntaxique = CU_add_suite("Tests analyseur_syntaxique.c", NULL, NULL);
+    CU_add_test(suite_analyseur_syntaxique, "test_construire_requete_etoile_et_renvoyer_statut_ok", test_construire_requete_etoile_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_syntaxique, "test_construire_requete_selection_et_renvoyer_statut_ok", test_construire_requete_selection_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_syntaxique, "test_construire_requete_join_et_renvoyer_statut_ok", test_construire_requete_join_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_syntaxique, "test_construire_requete_et_renvoyer_statut_ko", test_construire_requete_et_renvoyer_statut_ko);
+    CU_add_test(suite_analyseur_syntaxique, "test_transformer_expression_prefixee_en_arbre", test_transformer_expression_prefixee_en_arbre);
+    CU_add_test(suite_analyseur_syntaxique, "test_construire_condition_et_renvoyer_statut_ok", test_construire_condition_et_renvoyer_statut_ok);
+    CU_add_test(suite_analyseur_syntaxique, "test_prefixer_expression", test_prefixer_expression);
+    CU_add_test(suite_analyseur_syntaxique, "test_concatener_tests", test_concatener_tests);
+
+    CU_pSuite suite_analyseur_semantique = CU_add_suite("Tests analyseur_semantique.c", NULL, NULL);
+	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_succes", test_controler_jointures_succes);
+	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_pas_de_prefixe", test_controler_jointures_pas_de_prefixe);
+	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_cible_non_declaree", test_controler_jointures_cible_non_declaree);
 
 	CU_pSuite suite_resultat_utils = CU_add_suite("Tests resultat_utils.c", NULL, NULL);
 	CU_add_test(suite_resultat_utils, "test_dict_valeur", test_dict_valeur);

@@ -43,7 +43,9 @@ bool construire_requete_et_renvoyer_statut(t_requete_lexemes lexemes, t_requete*
 		printf("Erreur : clause where vide.\n");
 		return false;
 	}
-	return construire_condition_et_renvoyer_statut(&(tableau[no_lexeme]), lexemes.taille - no_lexeme, &(requete->condition));
+	bool result = construire_condition_et_renvoyer_statut(&(tableau[no_lexeme]), lexemes.taille - no_lexeme, &(requete->condition));
+	result &= controler_jointures(requete);
+	return result;
 }
 
 bool analyser_projection(t_requete_lexemes lexemes, int* position, t_requete* requete) {
