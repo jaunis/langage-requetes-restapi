@@ -18,6 +18,7 @@ OBJECTS += bin/utils/dict_utils.o
 OBJECTS += bin/utils/pile_int_utils.o
 OBJECTS += bin/utils/liste_str_utils.o
 OBJECTS += bin/analyseur_semantique.o
+OBJECTS += bin/configuration.o
 
 TEST_OBJECTS = bin/test/test_analyseur_syntaxique.o
 TEST_OBJECTS += bin/test/test_analyseur_lexical.o
@@ -28,6 +29,7 @@ TEST_OBJECTS += bin/test/test_dict_utils.o
 TEST_OBJECTS += bin/test/mocks.o
 TEST_OBJECTS += bin/test/test_afficheur.o
 TEST_OBJECTS += bin/test/test_analyseur_semantique.o
+TEST_OBJECTS += bin/test/test_configuration.o
 
 all: $(OBJECTS) $(MAIN)
 	rm -f bin/tests.o; gcc -o interpreteur $(OBJECTS) $(MAIN) $(CFLAGS)

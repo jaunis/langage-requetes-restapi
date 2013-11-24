@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
@@ -10,12 +11,22 @@
 #include "afficheur.h"
 #include "analyseur_json.h"
 #include "post_traitement.h"
+#include "configuration.h"
+#include <stdlib.h>
+
+char* nom_fichier_config() {
+	char* home = getenv("HOME");
+	char* fichier_complet = malloc(PATH_MAX * sizeof(char));
+	sprintf(fichier_complet, "%s/.interpreteurrc", home);
+	return fichier_complet;
+}
 
 int main(int argc, char** argv) {
     if(argc != 2) {
         utilisation();
         return 1;
     }
+    charger_configuration(nom_fichier_config());
     char* requete_str = argv[1];
     t_requete_lexemes requete_divisee = diviser_requete_en_lexemes(requete_str);
     t_requete requete;

@@ -5,7 +5,8 @@
 #include <stdio.h>
 #include <string.h>
 
-const char* REST_API_URL = "http://localhost:50050/1.1";
+char* REST_API_URL = "http://localhost:50050/1.1";
+
 CURL* curl;
 
 t_resultats*  executer_requete(t_requete requete) {
