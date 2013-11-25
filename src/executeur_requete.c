@@ -6,6 +6,8 @@
 #include <string.h>
 
 char* REST_API_URL = "http://localhost:50050/1.1";
+char* UTILISATEUR = "root";
+char* MOT_DE_PASSE = "superpass";
 
 CURL* curl;
 
@@ -39,6 +41,10 @@ char* executer_requete_http(char* cible) {
         sprintf(url_complete, "%s/%s", REST_API_URL, cible);
         curl_easy_setopt(curl, CURLOPT_URL, url_complete);
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, callback);
+        curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, UTILISATEUR);
+		curl_easy_setopt(curl, CURLOPT_PASSWORD, MOT_DE_PASSE);
+		curl_easy_setopt(curl, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
         char* resultat = malloc(sizeof(char));
         resultat[0] = '\0';
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &resultat);
@@ -48,6 +54,16 @@ char* executer_requete_http(char* cible) {
         if(code_execution != CURLE_OK) {
             printf("Impossible d'exécuter la requête : %s\n", curl_easy_strerror(code_execution));
             exit(1);
+        }
+        long http_code = 0;
+        curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+        if(http_code != 200) {
+        	if(http_code == 401) {
+        		printf("Erreur d'authentification : vérifiez le nom d'utilisateur et le mot de passe fournis.\n");
+        		exit(1);
+        	}
+        	printf("Erreur en contactant le serveur : %ld\n", http_code);
+        	exit(1);
         }
         return resultat;
     } else {

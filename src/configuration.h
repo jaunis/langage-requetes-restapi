@@ -13,5 +13,6 @@
 void charger_configuration(char* fichier);
 bool verifier_contient_egal(char* chaine);
 void rstrip(char* chaine);
+void traiter_cle_valeur(char* cle, char* valeur);
 
 #endif /* CONFIGURATION_H_ */

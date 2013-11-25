@@ -6,6 +6,8 @@
 #define EXECUTEUR_REQUETE_H
 
 extern char* REST_API_URL;
+extern char* UTILISATEUR;
+extern char* MOT_DE_PASSE;
 
 char* executer_requete_http(char* cible);
 size_t callback(void* buffer, size_t size, size_t nmemb, char** userp);
