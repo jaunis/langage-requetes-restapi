@@ -56,10 +56,10 @@ int main() {
 	CU_add_test(suite_post_traitement, "test_appliquer_jointures", test_appliquer_jointures);
 	CU_add_test(suite_post_traitement, "test_appliquer_jointures_champ_inexistant", test_appliquer_jointures_champ_inexistant);
 
-	CU_pSuite suite_confguration = CU_add_suite("Tests configuration.c", NULL, NULL);
-	CU_add_test(suite_confguration, "test_charger_configuration", test_charger_configuration);
-	CU_add_test(suite_confguration, "test_charger_configuration_invalide", test_charger_configuration_invalide);
-	CU_add_test(suite_confguration, "test_pas_de_fichier", test_pas_de_fichier);
+	CU_pSuite suite_configuration = CU_add_suite("Tests configuration.c", NULL, NULL);
+	CU_add_test(suite_configuration, "test_charger_configuration", test_charger_configuration);
+	CU_add_test(suite_configuration, "test_charger_configuration_invalide", test_charger_configuration_invalide);
+	CU_add_test(suite_configuration, "test_pas_de_fichier", test_pas_de_fichier);
 
     CU_basic_set_mode(CU_BRM_VERBOSE);
     CU_basic_run_tests();
