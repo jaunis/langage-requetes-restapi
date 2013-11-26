@@ -18,5 +18,8 @@ bool controler_conditions(t_requete* requete);
 bool conditions_sont_prefixees(t_requete* requete);
 bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cibles);
 bool valider_requete(t_requete* requete);
+bool controler_projection(t_requete* requete);
+void liste_cibles(t_requete* requete, char** cibles);
+bool verifier_prefixage_projection(t_projection projection, char** cibles, int nb_cibles);
 
 #endif /* ANALYSEUR_SEMANTIQUE_H_ */
