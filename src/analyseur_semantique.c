@@ -56,7 +56,7 @@ bool controler_jointures(t_requete* requete) {
 bool verifier_presence_point(char* chaine) {
 	bool resultat = NULL != strstr(chaine, ".");
 	if(!resultat)
-		printf("Erreur : les conditions de jointure doivent être préfixées avec le nom de la cible : %s\n", chaine);
+		printf("Erreur : les conditions, projections et conditions de jointure doivent être préfixées avec le nom de la cible : %s\n", chaine);
 	return resultat;
 }
 
@@ -66,7 +66,7 @@ bool tableau_contient_str(char** tableau, char* chaine, int taille_tableau) {
 		resultat |= strcmp(tableau[i], chaine) == 0;
 	}
 	if(!resultat)
-		printf("Erreur : une condition de jointure porte sur une cible inconnue : %s\n", chaine);
+		printf("Erreur : une conditions, projections ou condition de jointure porte sur une cible inconnue : %s\n", chaine);
 	return resultat;
 }
 
