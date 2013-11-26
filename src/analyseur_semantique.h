@@ -14,5 +14,9 @@
 bool controler_jointures(t_requete*);
 bool verifier_presence_point(char*);
 bool tableau_contient_str(char** tableau, char* chaine, int taille_tableau);
+bool controler_conditions(t_requete* requete);
+bool conditions_sont_prefixees(t_requete* requete);
+bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cibles);
+bool valider_requete(t_requete* requete);
 
 #endif /* ANALYSEUR_SEMANTIQUE_H_ */

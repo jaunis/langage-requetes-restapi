@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     char* requete_str = argv[1];
     t_requete_lexemes requete_divisee = diviser_requete_en_lexemes(requete_str);
     t_requete requete;
-    if(!construire_requete_et_renvoyer_statut(requete_divisee, &requete) || !controler_jointures(&requete)) {
+    if(!construire_requete_et_renvoyer_statut(requete_divisee, &requete) || !valider_requete(&requete)) {
     	printf("Requête invalide, arrêt.\n");
         return 1;
     }

@@ -11,6 +11,10 @@
 #include "types.h"
 #include <stdio.h>
 
+bool valider_requete(t_requete* requete) {
+	return controler_jointures(requete) && controler_conditions(requete);
+}
+
 bool controler_jointures(t_requete* requete) {
 	bool resultat = true;
 	bool inverser = false;
@@ -64,4 +68,28 @@ bool tableau_contient_str(char** tableau, char* chaine, int taille_tableau) {
 	if(!resultat)
 		printf("Erreur : une condition de jointure porte sur une cible inconnue : %s\n", chaine);
 	return resultat;
+}
+
+bool controler_conditions(t_requete* requete) {
+	if(requete->jointures.nb_jointures > 0) {
+		return conditions_sont_prefixees(requete);
+	}
+	return true;
+}
+
+bool conditions_sont_prefixees(t_requete* requete) {
+	int taille_tableau = requete->jointures.nb_jointures + 1;
+	char** cibles = malloc(sizeof(char**) * taille_tableau);
+	cibles[0] = requete->cible;
+	for(int i=1; i < requete->jointures.nb_jointures + 1; i++) {
+		cibles[i] = requete->jointures.liste[i-1].cible;
+	}
+	return verifier_prefixage_arbre(requete->condition, cibles, taille_tableau);
+}
+
+bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cibles) {
+	if(condition.fils_droit == NULL || condition.fils_gauche == NULL)
+		return verifier_presence_point(condition.valeur) && tableau_contient_str(cibles, strtok(condition.valeur, "."), nb_cibles);
+	return verifier_prefixage_arbre(*(condition.fils_droit), cibles, nb_cibles) &&
+			verifier_prefixage_arbre(*(condition.fils_gauche), cibles, nb_cibles);
 }

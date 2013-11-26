@@ -34,6 +34,9 @@ int main() {
 	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_succes", test_controler_jointures_succes);
 	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_pas_de_prefixe", test_controler_jointures_pas_de_prefixe);
 	CU_add_test(suite_analyseur_semantique, "test_controler_jointures_cible_non_declaree", test_controler_jointures_cible_non_declaree);
+	CU_add_test(suite_analyseur_semantique, "test_controler_conditions_succes", test_controler_conditions_succes);
+	CU_add_test(suite_analyseur_semantique, "test_controler_conditions_pas_de_prefixe", test_controler_conditions_pas_de_prefixe);
+	CU_add_test(suite_analyseur_semantique, "test_controler_conditions_cible_non_declaree", test_controler_conditions_cible_non_declaree);
 
 	CU_pSuite suite_resultat_utils = CU_add_suite("Tests resultat_utils.c", NULL, NULL);
 	CU_add_test(suite_resultat_utils, "test_dict_valeur", test_dict_valeur);

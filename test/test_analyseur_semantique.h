@@ -11,5 +11,8 @@
 void test_controler_jointures_succes();
 void test_controler_jointures_pas_de_prefixe();
 void test_controler_jointures_cible_non_declaree();
+void test_controler_conditions_succes();
+void test_controler_conditions_pas_de_prefixe();
+void test_controler_conditions_cible_non_declaree();
 
 #endif /* TEST_ANALYSEUR_SEMANTIQUE_H_ */
