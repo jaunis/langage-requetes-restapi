@@ -270,10 +270,12 @@ void test_controler_projections_succes() {
 	strcpy(elt2.condition, "lines.id=user_lines.line_id");
 	liste[0] = elt1;
 	liste[1] = elt2;
-	jointures.nb_jointures = 2;
-	jointures.liste = liste;
-	tableau[0] = "lines.id";
-	tableau[1] = "users.name";
+	requete.jointures.nb_jointures = 2;
+	requete.jointures.liste = liste;
+	requete.projection.champs[0] = malloc((strlen("lines.id") + 1) * sizeof(char));
+	strcpy(requete.projection.champs[0], "lines.id");
+	requete.projection.champs[1] = malloc((strlen("*") + 1) * sizeof(char));
+	strcpy(requete.projection.champs[1], "*");
 
 	CU_ASSERT_EQUAL(true, controler_projection(&requete));
 }

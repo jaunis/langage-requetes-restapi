@@ -85,8 +85,13 @@ bool conditions_sont_prefixees(t_requete* requete) {
 }
 
 bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cibles) {
-	if(condition.fils_droit == NULL || condition.fils_gauche == NULL)
-		return verifier_presence_point(condition.valeur) && tableau_contient_str(cibles, strtok(condition.valeur, "."), nb_cibles);
+	if(condition.valeur == NULL)
+		return true;
+	if(condition.fils_droit == NULL || condition.fils_gauche == NULL) {
+		char* valeur = malloc((strlen(condition.valeur) + 1) * sizeof(char));
+		strcpy(valeur, condition.valeur);
+		return verifier_presence_point(valeur) && tableau_contient_str(cibles, strtok(valeur, "."), nb_cibles);
+	}
 	return verifier_prefixage_arbre(*(condition.fils_droit), cibles, nb_cibles) &&
 			verifier_prefixage_arbre(*(condition.fils_gauche), cibles, nb_cibles);
 }
@@ -111,8 +116,12 @@ void liste_cibles(t_requete* requete, char** cibles) {
 bool verifier_prefixage_projection(t_projection projection, char** cibles, int nb_cibles) {
 	bool resultat = true;
 	for(int i=0; i<projection.taille; i++) {
-		resultat &= verifier_presence_point(projection.champs[i]) &&
-				tableau_contient_str(cibles, strtok(projection.champs[i], "."), nb_cibles);
+		char* chaine = malloc((strlen(projection.champs[i]) + 1) * sizeof(char));
+		strcpy(chaine, projection.champs[i]);
+		if(strcmp(chaine, "*") != 0) {
+			resultat &= verifier_presence_point(chaine) &&
+					tableau_contient_str(cibles, strtok(chaine, "."), nb_cibles);
+		}
 	}
 	return resultat;
 }
