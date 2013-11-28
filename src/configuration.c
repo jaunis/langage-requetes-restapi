@@ -45,7 +45,3 @@ void traiter_cle_valeur(char* cle, char* valeur) {
 		printf("Paramètre inconnu : %s\n", cle);
 	}
 }
-
-void rstrip(char* chaine) {
-	for (int i=0, j=0; chaine[j]=chaine[i]; j+=!isspace(chaine[i++]));
-}
