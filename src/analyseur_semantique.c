@@ -82,8 +82,9 @@ bool tableau_contient_str(char** tableau, char* chaine, int taille_tableau) {
 bool controler_conditions(t_requete* requete) {
     if (requete->jointures.nb_jointures > 0) {
         return conditions_sont_prefixees(requete);
+    } else {
+        return conditions_sont_non_prefixees(requete->condition);
     }
-    return true;
 }
 
 bool conditions_sont_prefixees(t_requete* requete) {
@@ -91,6 +92,15 @@ bool conditions_sont_prefixees(t_requete* requete) {
     char** cibles = malloc(sizeof(char*) * taille_tableau);
     liste_cibles(requete, cibles);
     return verifier_prefixage_arbre(requete->condition, cibles, taille_tableau);
+}
+
+bool conditions_sont_non_prefixees(t_condition condition) {
+    if (condition.valeur == NULL)
+        return true;
+    if (condition.fils_droit == NULL || condition.fils_gauche == NULL) {
+        return verifier_absence_point(condition.valeur);
+    }
+    return conditions_sont_non_prefixees(*(condition.fils_droit)) && conditions_sont_non_prefixees(*(condition.fils_gauche));
 }
 
 bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cibles) {
@@ -106,13 +116,14 @@ bool verifier_prefixage_arbre(t_condition condition, char** cibles, int nb_cible
 }
 
 bool controler_projection(t_requete* requete) {
-    if (requete->jointures.nb_jointures) {
+    if (requete->jointures.nb_jointures > 0) {
         int taille_tableau = requete->jointures.nb_jointures + 1;
         char** cibles = malloc(sizeof(char*) * taille_tableau);
         liste_cibles(requete, cibles);
         return verifier_prefixage_projection(requete->projection, cibles, taille_tableau);
+    } else {
+        return verifier_non_prefixage_projection(requete->projection);
     }
-    return true;
 }
 
 void liste_cibles(t_requete* requete, char** cibles) {
@@ -132,4 +143,16 @@ bool verifier_prefixage_projection(t_projection projection, char** cibles, int n
         }
     }
     return resultat;
+}
+
+bool verifier_non_prefixage_projection(t_projection projection) {
+    bool resultat = true;
+    for(int i=0; i<projection.taille; i++) {
+        resultat &= verifier_absence_point(projection.champs[i]);
+    }
+    return resultat;
+}
+
+bool verifier_absence_point(char* chaine) {
+    return NULL == strstr(chaine, ".");
 }

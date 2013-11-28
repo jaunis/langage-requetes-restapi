@@ -22,5 +22,8 @@ bool controler_projection(t_requete* requete);
 void liste_cibles(t_requete* requete, char** cibles);
 bool verifier_prefixage_projection(t_projection projection, char** cibles, int nb_cibles);
 bool controler_jointure(t_jointure* jointure, char** cibles_existantes, int taille_tableau);
+bool verifier_non_prefixage_projection(t_projection projection);
+bool verifier_absence_point(char* chaine);
+bool conditions_sont_non_prefixees(t_condition condition);
 
 #endif /* ANALYSEUR_SEMANTIQUE_H_ */

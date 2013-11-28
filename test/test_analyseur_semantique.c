@@ -135,10 +135,10 @@ void test_controler_conditions_succes() {
     strcpy(elt2.condition, "lines.id=user_lines.line_id");
     liste[0] = elt1;
     liste[1] = elt2;
-    jointures.nb_jointures = 2;
-    jointures.liste = liste;
-    fd.valeur = "lines.id=20";
-    fg.valeur = "users.name=Robert";
+    requete.jointures.nb_jointures = 2;
+    requete.jointures.liste = liste;
+    requete.condition.fils_droit->valeur = "lines.id=20";
+    requete.condition.fils_gauche->valeur = "users.name=Robert";
 
     CU_ASSERT_EQUAL(true, controler_conditions(&requete));
 }
@@ -233,6 +233,36 @@ void test_controler_conditions_cible_non_declaree() {
     };
 
     CU_ASSERT_EQUAL(false, controler_conditions(&requete))
+}
+
+void test_controler_condition_prefixage_en_trop() {
+    t_condition fg = {
+            .fils_gauche = NULL,
+            .fils_droit = NULL
+    };
+    fg.valeur = malloc(sizeof(char) * (strlen("users.id=20") + 1));
+    strcpy(fg.valeur, "users.id=20");
+    t_condition fd = {
+            .fils_gauche = NULL,
+            .fils_droit = NULL
+    };
+    fd.valeur = malloc(sizeof(char) * (strlen("users.name=Robert") + 1));
+    strcpy(fd.valeur, "users.name=Robert");
+    t_condition condition = {
+            .valeur = "and",
+            .fils_gauche = &fg,
+            .fils_droit = &fd
+    };
+    t_jointures jointures = {
+            .nb_jointures = 0
+    };
+    t_requete requete = {
+            .cible = "users",
+            .condition = condition,
+            .jointures = jointures
+    };
+
+    CU_ASSERT_EQUAL(false, controler_conditions(&requete));
 }
 
 void test_controler_projections_succes() {
@@ -343,6 +373,28 @@ void test_controler_projections_cible_non_declaree() {
     t_jointures jointures = {
             .nb_jointures = 2,
             .liste = liste
+    };
+    t_requete requete = {
+            .cible = "users",
+            .projection = projection,
+            .jointures = jointures
+    };
+
+    CU_ASSERT_EQUAL(false, controler_projection(&requete))
+}
+
+void test_controler_projection_prefixage_en_trop() {
+    char** tableau = malloc(2 * sizeof(char*));
+    tableau[0] = malloc((strlen("users.id") + 1) * sizeof(char));
+    tableau[1] = malloc((strlen("users.name") + 1) * sizeof(char));
+    strcpy(tableau[0], "users.id");
+    strcpy(tableau[1], "users.name");
+    t_projection projection = {
+            .taille = 2,
+            .champs = tableau
+    };
+    t_jointures jointures = {
+            .nb_jointures = 0
     };
     t_requete requete = {
             .cible = "users",
