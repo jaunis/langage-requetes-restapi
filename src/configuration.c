@@ -7,7 +7,6 @@
 
 #include "configuration.h"
 #include "executeur_requete.h"
-#include <ctype.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>

@@ -1,7 +1,7 @@
 #define _GNU_SOURCE
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "interpreteur.h"
 #include "analyseur_lexical.h"
 #include "analyseur_syntaxique.h"
@@ -9,10 +9,8 @@
 #include "executeur_requete.h"
 #include "types.h"
 #include "afficheur.h"
-#include "analyseur_json.h"
 #include "post_traitement.h"
 #include "configuration.h"
-#include <stdlib.h>
 
 char* nom_fichier_config() {
 	char* home = getenv("HOME");
