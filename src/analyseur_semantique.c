@@ -22,34 +22,40 @@ bool controler_jointures(t_requete* requete) {
 	cibles_existantes[0] = requete->cible;
 	for(int i=0; i < requete->jointures.nb_jointures; i++) {
 		t_jointure* jointure = &(requete->jointures.liste[i]);
-		char* cible_courante = jointure->cible;
-		char* condition_reecrite = malloc(sizeof(char) * (strlen(jointure->condition) + 1));
-		char* gauche = strtok(jointure->condition, "=");
-		resultat &= verifier_presence_point(gauche);
-		char* droite = strtok(NULL, "=");
-		resultat &= verifier_presence_point(droite);
-		if(resultat) {
-			char* cible_gauche = strtok(gauche, ".");
-			char* champ_gauche = strtok(NULL, ".");
-			char* cible_droite = strtok(droite, ".");
-			char* champ_droite = strtok(NULL, ".");
-			if(strcmp(cible_courante, cible_droite) != 0)
-				inverser = true;
-			if(inverser && strcmp(cible_courante, cible_gauche) != 0)
-				resultat &= false;
-			if(inverser) {
-				resultat &= tableau_contient_str(cibles_existantes, cible_droite, i+1);
-				sprintf(condition_reecrite, "%s.%s=%s.%s", cible_droite, champ_droite, cible_gauche, champ_gauche);
-			} else {
-				resultat &= tableau_contient_str(cibles_existantes, cible_gauche, i+1);
-				sprintf(condition_reecrite, "%s.%s=%s.%s", cible_gauche, champ_gauche, cible_droite, champ_droite);
-			}
-		}
-		free(jointure->condition);
-		jointure->condition = condition_reecrite;
-		cibles_existantes[i+1] = cible_courante;
+		resultat &= controler_jointure(jointure, cibles_existantes, i+1);
+		cibles_existantes[i+1] = jointure->cible;
 	}
 	free(cibles_existantes);
+	return resultat;
+}
+
+bool controler_jointure(t_jointure* jointure, char** cibles_existantes, int taille_tableau) {
+	bool inverser = false;
+	char* condition_reecrite = malloc(sizeof(char) * (strlen(jointure->condition) + 1));
+	char* gauche = strtok(jointure->condition, "=");
+	bool resultat = true;
+	resultat &= verifier_presence_point(gauche);
+	char* droite = strtok(NULL, "=");
+	resultat &= verifier_presence_point(droite);
+	if(resultat) {
+		char* cible_gauche = strtok(gauche, ".");
+		char* champ_gauche = strtok(NULL, ".");
+		char* cible_droite = strtok(droite, ".");
+		char* champ_droite = strtok(NULL, ".");
+		if(strcmp(jointure->cible, cible_droite) != 0)
+			inverser = true;
+		if(inverser && strcmp(jointure->cible, cible_gauche) != 0)
+			resultat &= false;
+		if(inverser) {
+			resultat &= tableau_contient_str(cibles_existantes, cible_droite, taille_tableau);
+			sprintf(condition_reecrite, "%s.%s=%s.%s", cible_droite, champ_droite, cible_gauche, champ_gauche);
+		} else {
+			resultat &= tableau_contient_str(cibles_existantes, cible_gauche, taille_tableau);
+			sprintf(condition_reecrite, "%s.%s=%s.%s", cible_gauche, champ_gauche, cible_droite, champ_droite);
+		}
+	}
+	free(jointure->condition);
+	jointure->condition = condition_reecrite;
 	return resultat;
 }
 
